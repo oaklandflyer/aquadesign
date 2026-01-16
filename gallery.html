@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gallery | Aqua Design Collective</title>
+
+  <meta name="description" content="Browse aquascape rental tanks by size and style. Aqua Design Collective gallery." />
+
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-main: #0e1114;
+      --bg-card: #151a1f;
+      --text-primary: #f5f7fa;
+      --text-muted: #a0a6ad;
+      --accent: #4fd1c5;
+      --border-subtle: rgba(255,255,255,0.08);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: var(--bg-main);
+      color: var(--text-primary);
+      line-height: 1.6;
+    }
+    a { color: inherit; text-decoration: none; }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 4rem 1.5rem;
+    }
+
+    header {
+      padding: 1.5rem 2rem;
+      border-bottom: 1px solid var(--border-subtle);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    header nav a {
+      margin-left: 1.5rem;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+    header nav a:hover { color: var(--text-primary); }
+
+    /* Buttons (match index) */
+    .btn {
+      display: inline-block;
+      padding: 0.9rem 1.6rem;
+      border-radius: 6px;
+      font-weight: 600;
+      transition: 0.2s ease;
+      border: 1px solid transparent;
+    }
+    .btn-primary { background: var(--accent); color: #000; }
+    .btn-primary:hover { opacity: 0.85; }
+    .btn-secondary {
+      border-color: var(--border-subtle);
+      color: var(--text-primary);
+      background: transparent;
+    }
+
+    /* Hero band */
+    .page-hero {
+      padding: 5rem 0 1rem;
+      background:
+        linear-gradient(to bottom, rgba(14,17,20,0.85), rgba(14,17,20,0.95)),
+        url("images/hero.jpg") center / cover no-repeat;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    .page-hero h1 {
+      font-size: clamp(2.3rem, 4.5vw, 3.2rem);
+      margin-bottom: 1rem;
+    }
+    .page-hero p {
+      color: var(--text-muted);
+      max-width: 820px;
+      font-size: 1.05rem;
+      margin-bottom: 1.75rem;
+    }
+
+    /* Section */
+    section h2 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+    .section-intro {
+      color: var(--text-muted);
+      max-width: 820px;
+      margin-bottom: 2rem;
+    }
+
+    /* Filters */
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-top: 1.5rem;
+    }
+    .chip {
+      background: transparent;
+      border: 1px solid var(--border-subtle);
+      color: var(--text-muted);
+      padding: 0.55rem 0.9rem;
+      border-radius: 999px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.15s ease;
+      user-select: none;
+    }
+    .chip:hover { color: var(--text-primary); }
+    .chip.active {
+      border-color: rgba(79,209,197,0.55);
+      color: var(--text-primary);
+      box-shadow: 0 0 0 2px rgba(79,209,197,0.12) inset;
+    }
+
+    /* Gallery grid */
+    .gallery-grid {
+      margin-top: 2rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.25rem;
+    }
+
+    .tile {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.15s ease;
+    }
+    .tile:hover { transform: translateY(-2px); }
+
+    .tile .thumb {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      overflow: hidden;
+      background: #0b0e11;
+    }
+    .tile img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      filter: saturate(1.05) contrast(1.02);
+    }
+
+    .tile .meta {
+      padding: 1rem 1rem 1.1rem;
+    }
+    .tile .title {
+      font-weight: 700;
+      margin-bottom: 0.35rem;
+    }
+    .tile .tags {
+      font-size: 0.92rem;
+      color: var(--text-muted);
+    }
+
+    /* Empty state */
+    .empty {
+      margin-top: 2rem;
+      padding: 2rem;
+      border: 1px dashed var(--border-subtle);
+      border-radius: 12px;
+      color: var(--text-muted);
+      background: rgba(255,255,255,0.02);
+    }
+
+    /* Lightbox modal */
+    .modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.75);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 1.25rem;
+      z-index: 999;
+    }
+    .modal.open { display: flex; }
+
+    .modal-card {
+      width: min(1100px, 96vw);
+      background: #0b0e11;
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 14px;
+      overflow: hidden;
+    }
+    .modal-imgwrap {
+      width: 100%;
+      background: #000;
+    }
+    .modal-imgwrap img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    .modal-meta {
+      padding: 1.25rem 1.5rem 1.5rem;
+      background: rgba(255,255,255,0.02);
+      border-top: 1px solid rgba(255,255,255,0.08);
+      display: flex;
+      gap: 1rem;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+    }
+    .modal-meta h3 { margin-bottom: 0.35rem; }
+    .modal-meta p { color: var(--text-muted); max-width: 820px; }
+
+    .modal-actions {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .icon-btn {
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.18);
+      color: var(--text-primary);
+      padding: 0.65rem 0.9rem;
+      border-radius: 10px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .icon-btn:hover { border-color: rgba(79,209,197,0.55); }
+
+    footer {
+      padding: 2rem;
+      border-top: 1px solid var(--border-subtle);
+      color: var(--text-muted);
+      text-align: center;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <strong>Aqua Design Collective</strong>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="rentals.html">Rentals</a>
+      <a href="gallery.html">Gallery</a>
+      <a href="clients.html">Clients</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <section class="page-hero">
+    <div class="container" style="padding-top:0; padding-bottom:3rem;">
+      <h1>Gallery</h1>
+      <p>
+        Browse completed aquascapes by size and style. Each scape can be replicated as a rental or adapted as a custom build.
+      </p>
+      <a class="btn btn-primary" href="contact.html">Request a Quote</a>
+      <a class="btn btn-secondary" href="rentals.html" style="margin-left:0.75rem;">View Rentals</a>
+
+      <div class="filters" aria-label="Filters">
+        <button class="chip active" data-filter-type="size" data-filter="all">All Sizes</button>
+        <button class="chip" data-filter-type="size" data-filter="nano">Nano</button>
+        <button class="chip" data-filter-type="size" data-filter="standard">Standard</button>
+        <button class="chip" data-filter-type="size" data-filter="statement">Statement</button>
+        <button class="chip" data-filter-type="size" data-filter="showpiece">Showpiece</button>
+
+        <button class="chip active" data-filter-type="style" data-filter="all" style="margin-left:0.75rem;">All Styles</button>
+        <button class="chip" data-filter-type="style" data-filter="nature">Nature</button>
+        <button class="chip" data-filter-type="style" data-filter="iwagumi">Iwagumi</button>
+        <button class="chip" data-filter-type="style" data-filter="jungle">Jungle</button>
+        <button class="chip" data-filter-type="style" data-filter="minimal">Minimal</button>
+        <button class="chip" data-filter-type="style" data-filter="blackwater">Blackwater</button>
+      </div>
+    </div>
+  </section>
+
+  <main class="container">
+    <h2>Featured Scapes</h2>
+    <p class="section-intro">
+      Tip for keeping the site fast: export images at ~80–85% quality, limit desktop width to ~1600px, and provide a 640px version for mobile.
+      This page will automatically lazy-load images and prefer smaller sizes on mobile.
+    </p>
+
+    <div id="gallery" class="gallery-grid" aria-live="polite"></div>
+    <div id="empty" class="empty" style="display:none;">
+      No results for the selected filters. Try a different size or style.
+    </div>
+  </main>
+
+  <!-- Lightbox Modal -->
+  <div id="modal" class="modal" role="dialog" aria-modal="true" aria-label="Image viewer">
+    <div class="modal-card" role="document">
+      <div class="modal-imgwrap">
+        <img id="modalImg" alt="" />
+      </div>
+      <div class="modal-meta">
+        <div>
+          <h3 id="modalTitle">Title</h3>
+          <p id="modalDesc">Description</p>
+        </div>
+        <div class="modal-actions">
+          <a id="modalCta" class="btn btn-primary" href="contact.html">Request This Look</a>
+          <button id="closeModal" class="icon-btn" type="button">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    © <span id="year"></span> Aqua Design Collective · Aquascape Rentals & Design
+  </footer>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    /**
+     * GALLERY MANIFEST
+     * Add entries here. Keep it organized by size folder.
+     *
+     * Recommended file naming:
+     * - 640px wide for mobile:   /images/gallery/<size>/name-640.jpg
+     * - 1200px wide for desktop: /images/gallery/<size>/name-1200.jpg
+     *
+     * If you only have one image file, set src640 and src1200 to the same path.
+     */
+    const GALLERY_ITEMS = [
+      // Example placeholders (replace with your real images)
+      {
+        id: "nano-01",
+        title: "Nano Nature Scape",
+        size: "nano",
+        style: "nature",
+        src640: "images/gallery/nano/nano-nature-01-640.jpg",
+        src1200: "images/gallery/nano/nano-nature-01-1200.jpg",
+        alt: "A compact planted aquascape on a desk",
+        description: "A clean nano build with a natural composition—ideal for desks, counters, and reception areas."
+      },
+      {
+        id: "standard-01",
+        title: "Standard Iwagumi Layout",
+        size: "standard",
+        style: "iwagumi",
+        src640: "images/gallery/standard/standard-iwagumi-01-640.jpg",
+        src1200: "images/gallery/standard/standard-iwagumi-01-1200.jpg",
+        alt: "A minimalist stone-forward aquascape",
+        description: "Stone-forward, minimalist composition with strong negative space and crisp lines."
+      },
+      {
+        id: "statement-01",
+        title: "Statement Jungle Scape",
+        size: "statement",
+        style: "jungle",
+        src640: "images/gallery/statement/statement-jungle-01-640.jpg",
+        src1200: "images/gallery/statement/statement-jungle-01-1200.jpg",
+        alt: "A lush planted aquarium centerpiece",
+        description: "High-impact, lush planting designed to anchor a lounge, lobby, or shared space."
+      }
+    ];
+
+    // Filters
+    let activeSize = "all";
+    let activeStyle = "all";
+
+    const galleryEl = document.getElementById("gallery");
+    const emptyEl = document.getElementById("empty");
+
+    function matchesFilters(item) {
+      const sizeOk = activeSize === "all" || item.size === activeSize;
+      const styleOk = activeStyle === "all" || item.style === activeStyle;
+      return sizeOk && styleOk;
+    }
+
+    function renderGallery() {
+      galleryEl.innerHTML = "";
+
+      const items = GALLERY_ITEMS.filter(matchesFilters);
+
+      if (items.length === 0) {
+        emptyEl.style.display = "block";
+        return;
+      }
+      emptyEl.style.display = "none";
+
+      for (const item of items) {
+        const tile = document.createElement("div");
+        tile.className = "tile";
+        tile.setAttribute("data-id", item.id);
+
+        // Build image with responsive srcset
+        const img = document.createElement("img");
+        img.loading = "lazy";
+        img.decoding = "async";
+        img.alt = item.alt || item.title;
+
+        // If 640/1200 are the same, srcset still works fine.
+        img.src = item.src640;
+        img.srcset = `${item.src640} 640w, ${item.src1200} 1200w`;
+        img.sizes = "(max-width: 640px) 92vw, (max-width: 1100px) 45vw, 360px";
+
+        const thumb = document.createElement("div");
+        thumb.className = "thumb";
+        thumb.appendChild(img);
+
+        const meta = document.createElement("div");
+        meta.className = "meta";
+
+        const title = document.createElement("div");
+        title.className = "title";
+        title.textContent = item.title;
+
+        const tags = document.createElement("div");
+        tags.className = "tags";
+        tags.textContent = `${capitalize(item.size)} • ${capitalize(item.style)}`;
+
+        meta.appendChild(title);
+        meta.appendChild(tags);
+
+        tile.appendChild(thumb);
+        tile.appendChild(meta);
+
+        tile.addEventListener("click", () => openModal(item));
+        galleryEl.appendChild(tile);
+      }
+    }
+
+    function capitalize(str) {
+      if (!str) return "";
+      return str.charAt(0).toUpperCase() + str.slice(1);
+    }
+
+    // Filter chip handling
+    document.querySelectorAll(".chip").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const type = btn.getAttribute("data-filter-type");
+        const value = btn.getAttribute("data-filter");
+
+        // Toggle active per group
+        document.querySelectorAll(`.chip[data-filter-type="${type}"]`).forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+
+        if (type === "size") activeSize = value;
+        if (type === "style") activeStyle = value;
+
+        renderGallery();
+      });
+    });
+
+    // Modal
+    const modal = document.getElementById("modal");
+    const modalImg = document.getElementById("modalImg");
+    const modalTitle = document.getElementById("modalTitle");
+    const modalDesc = document.getElementById("modalDesc");
+    const closeModalBtn = document.getElementById("closeModal");
+
+    function openModal(item) {
+      // Use the larger image in the modal
+      modalImg.src = item.src1200 || item.src640;
+      modalImg.alt = item.alt || item.title;
+      modalTitle.textContent = item.title;
+      modalDesc.textContent = item.description || `${capitalize(item.size)} • ${capitalize(item.style)}`;
+
+      modal.classList.add("open");
+      document.body.style.overflow = "hidden";
+    }
+
+    function closeModal() {
+      modal.classList.remove("open");
+      document.body.style.overflow = "";
+      // Clear src to stop downloading if user closes quickly
+      modalImg.src = "";
+    }
+
+    closeModalBtn.addEventListener("click", closeModal);
+    modal.addEventListener("click", (e) => {
+      if (e.target === modal) closeModal();
+    });
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && modal.classList.contains("open")) closeModal();
+    });
+
+    // Initial render
+    renderGallery();
+  </script>
+
+</body>
+</html>
