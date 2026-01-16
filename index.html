@@ -27,14 +27,14 @@
     body {
       font-family: 'Montserrat', sans-serif;
       color: var(--text-primary);
-      line-height: 1.6;
       background: var(--bg-main);
+      line-height: 1.6;
       overflow-x: hidden;
     }
 
     a { color: inherit; text-decoration: none; }
 
-    /* ===== Full-page aquatic background (darker, subtle, codable) ===== */
+    /* ===== Aquatic Background ===== */
     body::before,
     body::after {
       content: "";
@@ -43,18 +43,16 @@
       pointer-events: none;
     }
 
-    /* Deep water + vignette */
     body::before {
       z-index: -2;
       background:
         radial-gradient(1200px 700px at 50% -10%, rgba(70,170,220,0.12), transparent 60%),
         radial-gradient(900px 700px at 15% 15%, rgba(79,209,197,0.10), transparent 62%),
         radial-gradient(900px 700px at 85% 30%, rgba(79,209,197,0.06), transparent 66%),
-        radial-gradient(1200px 900px at 50% 55%, rgba(0,0,0,0.20), rgba(0,0,0,0.78)),
-        linear-gradient(to bottom, #04070b 0%, #071521 45%, #04101a 100%);
+        radial-gradient(1200px 900px at 50% 55%, rgba(0,0,0,0.25), rgba(0,0,0,0.80)),
+        linear-gradient(to bottom, #04070b, #071521, #04101a);
     }
 
-    /* Caustic shimmer (very subtle) */
     body::after {
       z-index: -1;
       opacity: 0.18;
@@ -62,123 +60,118 @@
       background:
         repeating-radial-gradient(circle at 20% 30%,
           rgba(120,200,255,0.12) 0px,
-          rgba(120,200,255,0.00) 24px,
-          rgba(120,200,255,0.08) 54px,
-          rgba(120,200,255,0.00) 92px),
-        repeating-radial-gradient(circle at 70% 40%,
-          rgba(79,209,197,0.10) 0px,
-          rgba(79,209,197,0.00) 28px,
-          rgba(79,209,197,0.07) 56px,
-          rgba(79,209,197,0.00) 98px);
-      filter: blur(0.6px);
-      animation: caustics-drift 22s ease-in-out infinite;
+          rgba(120,200,255,0.00) 26px,
+          rgba(120,200,255,0.08) 52px,
+          rgba(120,200,255,0.00) 96px);
+      animation: caustics 22s ease-in-out infinite;
     }
 
-    @keyframes caustics-drift {
-      0%   { transform: translate3d(0,0,0) scale(1.02); }
-      50%  { transform: translate3d(-18px, 16px, 0) scale(1.06); }
-      100% { transform: translate3d(0,0,0) scale(1.02); }
+    @keyframes caustics {
+      0% { transform: translateY(0); }
+      50% { transform: translateY(-20px); }
+      100% { transform: translateY(0); }
     }
 
-    /* Reduced motion */
-    @media (prefers-reduced-motion: reduce) {
-      body::after { animation: none; }
-      .hero::after { animation: none; }
-    }
-
-    /* Layout */
     .site { position: relative; z-index: 1; }
 
+    /* ===== Navigation (ASF Visuals style) ===== */
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(14,17,20,0.55);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .nav-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 1.2rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    .nav-links a {
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    .nav-links a:hover {
+      color: var(--text-primary);
+    }
+
+    .nav-toggle {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+
+    .nav-toggle span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: var(--text-primary);
+      margin: 5px 0;
+      transition: 0.3s ease;
+    }
+
+    .mobile-menu {
+      display: none;
+      flex-direction: column;
+      background: rgba(14,17,20,0.95);
+      border-top: 1px solid var(--border-subtle);
+    }
+
+    .mobile-menu a {
+      padding: 1.2rem 1.5rem;
+      font-weight: 600;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .nav.open .mobile-menu {
+      display: flex;
+    }
+
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .nav-toggle { display: block; }
+    }
+
+    /* ===== Layout ===== */
     .container {
       max-width: 1200px;
       margin: 0 auto;
       padding: 4rem 1.5rem;
     }
 
-    header {
-      padding: 1.5rem 2rem;
-      border-bottom: 1px solid var(--border-subtle);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: rgba(14,17,20,0.55);
-      backdrop-filter: blur(10px);
-    }
-
-    header nav a {
-      margin-left: 1.5rem;
-      font-weight: 600;
-      color: var(--text-muted);
-    }
-
-    header nav a:hover { color: var(--text-primary); }
-
-    /* Hero (darker, underwater beams + caustics; no image dependency) */
+    /* ===== Hero ===== */
     .hero {
-      position: relative;
       min-height: 80vh;
       display: flex;
       align-items: center;
-      overflow: hidden;
-
+      position: relative;
       background:
         radial-gradient(1200px 600px at 50% -10%, rgba(40,120,160,0.20), transparent 60%),
-        linear-gradient(to bottom, #05080c 0%, #07131f 35%, #061826 60%, #04121b 100%);
-    }
-
-    /* Light shafts */
-    .hero::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      background:
-        linear-gradient(115deg,
-          transparent 35%,
-          rgba(80,180,255,0.10) 45%,
-          transparent 55%
-        ),
-        linear-gradient(245deg,
-          transparent 30%,
-          rgba(80,180,255,0.08) 42%,
-          transparent 54%
-        ),
-        linear-gradient(90deg,
-          transparent 40%,
-          rgba(120,200,255,0.06) 50%,
-          transparent 60%
-        );
-      opacity: 0.40;
-      mix-blend-mode: screen;
-    }
-
-    /* Floor caustics */
-    .hero::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      background:
-        radial-gradient(900px 420px at 50% 92%, rgba(120,200,255,0.22), transparent 70%),
-        repeating-radial-gradient(circle at 50% 100%,
-          rgba(120,200,255,0.14) 0px,
-          rgba(120,200,255,0.00) 26px,
-          rgba(120,200,255,0.10) 52px,
-          rgba(120,200,255,0.00) 96px);
-      opacity: 0.20;
-      mix-blend-mode: overlay;
-      animation: caustic-move 24s linear infinite;
-    }
-
-    @keyframes caustic-move {
-      from { background-position: 0 0, 0 0; }
-      to   { background-position: 0 0, 0 -240px; }
+        linear-gradient(to bottom, #05080c, #07131f, #04121b);
     }
 
     .hero-content {
+      max-width: 700px;
       position: relative;
       z-index: 2;
-      max-width: 700px;
     }
 
     .hero h1 {
@@ -188,8 +181,8 @@
 
     .hero p {
       color: var(--text-muted);
-      font-size: 1.1rem;
       margin-bottom: 2rem;
+      font-size: 1.1rem;
     }
 
     .btn {
@@ -198,8 +191,6 @@
       border-radius: 6px;
       font-weight: 600;
       margin-right: 1rem;
-      transition: 0.2s ease;
-      border: 1px solid transparent;
     }
 
     .btn-primary {
@@ -207,28 +198,12 @@
       color: #000;
     }
 
-    .btn-primary:hover { opacity: 0.88; }
-
     .btn-secondary {
-      border-color: var(--border-subtle);
-      color: var(--text-primary);
-      background: rgba(0,0,0,0.18);
-      backdrop-filter: blur(8px);
+      border: 1px solid var(--border-subtle);
+      background: rgba(0,0,0,0.25);
     }
 
-    /* Sections */
-    section h2 {
-      font-size: 2rem;
-      margin-bottom: 1rem;
-    }
-
-    section p.section-intro {
-      color: var(--text-muted);
-      max-width: 700px;
-      margin-bottom: 3rem;
-    }
-
-    /* Cards */
+    /* ===== Cards ===== */
     .grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -236,7 +211,6 @@
     }
 
     .card {
-      position: relative;
       background: var(--bg-card);
       padding: 2rem;
       border-radius: 10px;
@@ -244,160 +218,92 @@
       backdrop-filter: blur(10px);
     }
 
-    .card::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      border-radius: 10px;
-      pointer-events: none;
-      background:
-        radial-gradient(520px 220px at 10% 0%, rgba(79,209,197,0.08), transparent 55%),
-        radial-gradient(520px 220px at 90% 100%, rgba(79,209,197,0.06), transparent 55%);
-      opacity: 0.30;
-    }
-
-    .card h3 { margin-bottom: 0.5rem; }
     .card p { color: var(--text-muted); }
 
-    /* CTA */
+    /* ===== CTA ===== */
     .cta {
       background: linear-gradient(135deg, #071521, #0b2a33, #0b3b46);
-      border-radius: 14px;
       padding: 4rem 2rem;
+      border-radius: 14px;
       text-align: center;
-      border: 1px solid rgba(255,255,255,0.08);
-      backdrop-filter: blur(10px);
+      border: 1px solid var(--border-subtle);
     }
-
-    .cta h2 { margin-bottom: 1rem; }
-    .cta p { margin-bottom: 2rem; color: #e5e7eb; }
 
     footer {
       padding: 2rem;
-      border-top: 1px solid var(--border-subtle);
-      color: var(--text-muted);
       text-align: center;
       font-size: 0.9rem;
+      color: var(--text-muted);
+      border-top: 1px solid var(--border-subtle);
       background: rgba(14,17,20,0.45);
-      backdrop-filter: blur(10px);
     }
   </style>
 </head>
 
 <body>
-  <div class="site">
+<div class="site">
 
-    <!-- Header -->
-    <header>
-      <strong>Aqua Design Collective</strong>
-      <nav>
+  <header class="nav">
+    <div class="nav-inner">
+      <strong class="logo">Aqua Design Collective</strong>
+
+      <nav class="nav-links">
         <a href="rentals.html">Rentals</a>
         <a href="gallery.html">Gallery</a>
         <a href="clients.html">Clients</a>
         <a href="contact.html">Contact</a>
       </nav>
-    </header>
 
-    <!-- Hero -->
-    <section class="hero">
-      <div class="container hero-content">
-        <h1>Living Aquascapes, Designed to Elevate Your Space</h1>
-        <p>
-          Premium aquascape rentals and custom aquarium installations for offices,
-          hospitality venues, and modern homes—designed, installed, and maintained for you.
-        </p>
-        <a href="rentals.html" class="btn btn-primary">Browse Rentals</a>
-        <a href="gallery.html" class="btn btn-secondary">View Gallery</a>
-      </div>
-    </section>
+      <button class="nav-toggle" aria-label="Toggle Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
 
-    <!-- What We Do -->
-    <section class="container">
-      <h2>What We Do</h2>
-      <p class="section-intro">
-        Aqua Design Collective specializes in curated planted aquariums that bring
-        calm, movement, and life into thoughtfully designed spaces.
-      </p>
+    <div class="mobile-menu">
+      <a href="rentals.html">Rentals</a>
+      <a href="gallery.html">Gallery</a>
+      <a href="clients.html">Clients</a>
+      <a href="contact.html">Contact</a>
+    </div>
+  </header>
 
-      <div class="grid">
-        <div class="card">
-          <h3>Aquascape Rentals</h3>
-          <p>
-            Ready-to-place aquascapes in multiple sizes, ideal for offices,
-            reception areas, and residences.
-          </p>
-        </div>
+  <section class="hero">
+    <div class="container hero-content">
+      <h1>Living Aquascapes, Designed to Elevate Your Space</h1>
+      <p>Premium aquascape rentals and custom aquarium installations for offices, hospitality, and modern homes.</p>
+      <a href="rentals.html" class="btn btn-primary">Browse Rentals</a>
+      <a href="gallery.html" class="btn btn-secondary">View Gallery</a>
+    </div>
+  </section>
 
-        <div class="card">
-          <h3>Custom Design & Install</h3>
-          <p>
-            Bespoke aquariums designed to complement your architecture,
-            lighting, and interior aesthetic.
-          </p>
-        </div>
+  <section class="container">
+    <h2>What We Do</h2>
+    <p class="section-intro">Curated planted aquariums that bring calm, movement, and life into designed spaces.</p>
+    <div class="grid">
+      <div class="card"><h3>Aquascape Rentals</h3><p>Ready-to-place aquascapes for homes and offices.</p></div>
+      <div class="card"><h3>Custom Design</h3><p>Bespoke aquariums built to your space.</p></div>
+      <div class="card"><h3>Maintenance</h3><p>Professional ongoing care and optimization.</p></div>
+    </div>
+  </section>
 
-        <div class="card">
-          <h3>Ongoing Maintenance</h3>
-          <p>
-            Professional care plans including water changes,
-            plant maintenance, and system optimization.
-          </p>
-        </div>
-      </div>
-    </section>
+  <section class="container">
+    <div class="cta">
+      <h2>Ready to Transform Your Space?</h2>
+      <p>Tell us about your space and we’ll guide you.</p>
+      <a href="contact.html" class="btn btn-primary">Request a Quote</a>
+    </div>
+  </section>
 
-    <!-- Rental Sizes -->
-    <section class="container">
-      <h2>Scape Sizes</h2>
-      <p class="section-intro">
-        Choose the scale that fits your space. All rentals can include
-        installation and maintenance options.
-      </p>
+  <footer>
+    © <span id="year"></span> Aqua Design Collective
+  </footer>
 
-      <div class="grid">
-        <div class="card">
-          <h3>Nano</h3>
-          <p>Compact desktop or reception-desk aquascapes.</p>
-        </div>
+</div>
 
-        <div class="card">
-          <h3>Standard</h3>
-          <p>Balanced statement pieces for homes and offices.</p>
-        </div>
-
-        <div class="card">
-          <h3>Statement</h3>
-          <p>Large, eye-catching installations for shared spaces.</p>
-        </div>
-
-        <div class="card">
-          <h3>Showpiece</h3>
-          <p>Architectural-scale aquascapes designed to anchor a room.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- CTA -->
-    <section class="container">
-      <div class="cta">
-        <h2>Ready to Transform Your Space?</h2>
-        <p>
-          Tell us about your location, preferred size, and maintenance needs.
-          We’ll guide you to the right aquascape solution.
-        </p>
-        <a href="contact.html" class="btn btn-primary">Request a Quote</a>
-      </div>
-    </section>
-
-    <!-- Footer -->
-    <footer>
-      © <span id="year"></span> Aqua Design Collective · Aquascape Rentals & Design
-    </footer>
-
-  </div>
-
-  <script>
-    document.getElementById("year").textContent = new Date().getFullYear();
-  </script>
+<script>
+  document.getElementById("year").textContent = new Date().getFullYear();
+  const nav = document.querySelector(".nav");
+  document.querySelector(".nav-toggle").onclick = () => nav.classList.toggle("open");
+</script>
 </body>
 </html>
