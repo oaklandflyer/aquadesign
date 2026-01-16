@@ -13,6 +13,120 @@
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
 
   <style>
+    .site { position: relative; z-index: 1; }
+
+    /* ===== Aquatic Background System (subtle, no images) ===== */
+
+/* 1) Page-level background (glow + vignette + caustics) */
+body {
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* A fixed background layer that sits behind everything */
+body::before,
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -2;
+}
+
+/* Soft teal glows + vignette */
+body::before {
+  background:
+    radial-gradient(900px 600px at 15% 10%, rgba(79, 209, 197, 0.10), transparent 60%),
+    radial-gradient(700px 520px at 85% 20%, rgba(79, 209, 197, 0.06), transparent 62%),
+    radial-gradient(900px 700px at 60% 90%, rgba(44, 83, 100, 0.10), transparent 62%),
+    radial-gradient(1200px 900px at 50% 50%, rgba(0,0,0,0.35), rgba(0,0,0,0.70));
+}
+
+/* Caustic light pattern (subtle moving highlights) */
+body::after {
+  opacity: 0.22;
+  z-index: -1;
+  mix-blend-mode: screen;
+  background:
+    repeating-radial-gradient(circle at 20% 30%,
+      rgba(79, 209, 197, 0.12) 0px,
+      rgba(79, 209, 197, 0.00) 22px,
+      rgba(79, 209, 197, 0.08) 46px,
+      rgba(79, 209, 197, 0.00) 74px),
+    repeating-radial-gradient(circle at 70% 40%,
+      rgba(79, 209, 197, 0.10) 0px,
+      rgba(79, 209, 197, 0.00) 26px,
+      rgba(79, 209, 197, 0.07) 52px,
+      rgba(79, 209, 197, 0.00) 86px);
+  filter: blur(0.4px);
+  animation: caustics-drift 18s ease-in-out infinite;
+}
+
+@keyframes caustics-drift {
+  0%   { transform: translate3d(0,0,0) scale(1.02); }
+  50%  { transform: translate3d(-18px, 14px, 0) scale(1.06); }
+  100% { transform: translate3d(0,0,0) scale(1.02); }
+}
+
+/* 2) Hero gets its own aquatic overlay that matches your existing hero image */
+.hero {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Overlay: subtle wave sheen + bubbles */
+.hero::before,
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+/* Soft wave sheen */
+.hero::before {
+  background:
+    radial-gradient(900px 520px at 30% 25%, rgba(79, 209, 197, 0.14), transparent 62%),
+    radial-gradient(720px 520px at 75% 35%, rgba(79, 209, 197, 0.10), transparent 66%),
+    linear-gradient(to bottom, rgba(0,0,0,0.00), rgba(0,0,0,0.20));
+  mix-blend-mode: screen;
+  opacity: 0.35;
+}
+
+/* Bubble field (tiny dots that gently rise) */
+.hero::after {
+  opacity: 0.35;
+  background-image:
+    radial-gradient(circle, rgba(245,247,250,0.22) 1px, transparent 2px),
+    radial-gradient(circle, rgba(245,247,250,0.14) 1px, transparent 2px),
+    radial-gradient(circle, rgba(79,209,197,0.18) 1px, transparent 2px);
+  background-size: 120px 120px, 180px 180px, 240px 240px;
+  background-position: 10px 30px, 60px 90px, 110px 40px;
+  animation: bubbles-rise 14s linear infinite;
+}
+
+@keyframes bubbles-rise {
+  0%   { transform: translateY(0); }
+  100% { transform: translateY(-120px); }
+}
+
+/* 3) Optional: give cards a faint watery edge highlight */
+.card {
+  position: relative;
+}
+
+.card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 10px;
+  pointer-events: none;
+  background:
+    radial-gradient(520px 220px at 10% 0%, rgba(79,209,197,0.08), transparent 55%),
+    radial-gradient(520px 220px at 90% 100%, rgba(79,209,197,0.06), transparent 55%);
+  opacity: 0.35;
+}
+
     :root {
       --bg-main: #0e1114;
       --bg-card: #151a1f;
@@ -286,6 +400,11 @@
   <script>
     document.getElementById("year").textContent = new Date().getFullYear();
   </script>
+<div class="site">
+  <!-- Header -->
+  ...
+  <!-- Footer -->
+</div>
 
 </body>
 </html>
