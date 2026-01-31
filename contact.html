@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Contact | Aqua Design Collective</title>
 
-  <meta name="description" content="Request a quote for aquascape rentals and aquarium design by Aqua Design Collective." />
+  <meta name="description" content="Get in touch with Aqua Design Collective for aquascape rentals, aquarium design, and maintenance." />
 
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
 
@@ -64,7 +64,7 @@
       background: transparent;
     }
 
-    /* Page hero band (index-style) */
+    /* Page hero band */
     .page-hero {
       padding: 5rem 0 1rem;
       background:
@@ -95,9 +95,6 @@
       grid-template-columns: 1fr;
       gap: 1.25rem;
     }
-    @media (min-width: 720px) {
-      .grid.two { grid-template-columns: 1fr 1fr; }
-    }
 
     label {
       display: block;
@@ -105,7 +102,7 @@
       font-weight: 600;
     }
 
-    input, select, textarea {
+    input, textarea {
       width: 100%;
       padding: 0.75rem;
       background: #0b0e11;
@@ -126,7 +123,15 @@
       display: flex;
       gap: 1rem;
       flex-wrap: wrap;
-      margin-top: 0.5rem;
+      margin-top: 1.5rem;
+      align-items: center;
+    }
+
+    .status {
+      margin-top: 1rem;
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      display: none;
     }
 
     footer {
@@ -155,79 +160,39 @@
 
   <section class="page-hero">
     <div class="container" style="padding-top:0; padding-bottom:3rem;">
-      <h1>Request a Quote</h1>
+      <h1>Get in Touch</h1>
       <p>
-        Share a few details and we’ll recommend a size and service package. Typical response time: 24–48 hours.
+        Interested in an aquascape for your space? Leave your email and a short note — we’ll follow up.
       </p>
     </div>
   </section>
 
   <main class="container">
-    <form>
-      <div class="grid two">
+    <!-- Replace the action URL with your Formspree endpoint -->
+    <form class="contact-form" action="https://formspree.io/f/mbdkrzrj" method="POST">
+      <input type="hidden" name="_subject" value="New Aqua Design Collective Inquiry" />
+      <input type="hidden" name="_template" value="table" />
+      <input type="text" name="_gotcha" style="display:none" />
+
+      <div class="grid">
         <div>
-          <label for="name">Name</label>
-          <input id="name" type="text" placeholder="Your name" required />
+          <label for="email">Contact Email</label>
+          <input id="email" name="email" type="email" placeholder="you@email.com" required />
+          <div class="helper">We’ll only use this to respond to your request.</div>
         </div>
 
         <div>
-          <label for="email">Email</label>
-          <input id="email" type="email" placeholder="you@email.com" required />
-        </div>
-      </div>
-
-      <div class="grid two" style="margin-top:1.25rem;">
-        <div>
-          <label for="location">Location / City</label>
-          <input id="location" type="text" placeholder="Pittsburgh, PA" />
-        </div>
-
-        <div>
-          <label for="space">Space Type</label>
-          <select id="space">
-            <option>Home</option>
-            <option>Office</option>
-            <option>Restaurant / Hospitality</option>
-            <option>Retail</option>
-            <option>Other</option>
-          </select>
+          <label for="note">Short Note</label>
+          <textarea id="note" name="message" placeholder="A quick note about your space and what you're looking for…" required></textarea>
         </div>
       </div>
 
-      <div class="grid two" style="margin-top:1.25rem;">
-        <div>
-          <label for="size">Preferred Scape Size</label>
-          <select id="size">
-            <option>Nano</option>
-            <option>Standard</option>
-            <option>Statement</option>
-            <option>Showpiece</option>
-            <option>Not Sure</option>
-          </select>
-          <div class="helper">If you’re unsure, choose “Not Sure.” We’ll recommend a fit.</div>
-        </div>
-
-        <div>
-          <label for="maintenance">Maintenance Preference</label>
-          <select id="maintenance">
-            <option>Not Sure</option>
-            <option>Essential (Install + Guidance)</option>
-            <option>Care Plan (Ongoing Maintenance)</option>
-            <option>White-Glove (Premium)</option>
-          </select>
-          <div class="helper">Most clients choose a care plan for consistent visual quality.</div>
-        </div>
+      <div class="actions">
+        <button class="btn btn-primary" type="submit">Send</button>
+        <a class="btn btn-secondary" href="gallery.html">View Gallery</a>
       </div>
 
-      <div style="margin-top:1.25rem;">
-        <label for="message">Message</label>
-        <textarea id="message" placeholder="Tell us about your space, preferred timeline, and any design preferences. If you can, include approximate dimensions of the placement area."></textarea>
-      </div>
-
-      <div class="actions" style="margin-top:1.5rem;">
-        <button class="btn btn-primary" type="submit">Submit Request</button>
-        <a class="btn btn-secondary" href="rentals.html">Review Rentals</a>
-      </div>
+      <div class="status" id="form-status">Sending…</div>
     </form>
   </main>
 
@@ -237,6 +202,34 @@
 
   <script>
     document.getElementById("year").textContent = new Date().getFullYear();
+
+    // Optional: AJAX submit for smoother UX (works on GitHub Pages)
+    const form = document.querySelector(".contact-form");
+    const statusEl = document.getElementById("form-status");
+
+    form.addEventListener("submit", async (e) => {
+      // If you prefer normal submit (Formspree redirect), delete this entire handler.
+      e.preventDefault();
+      statusEl.style.display = "block";
+      statusEl.textContent = "Sending…";
+
+      try {
+        const res = await fetch(form.action, {
+          method: "POST",
+          body: new FormData(form),
+          headers: { "Accept": "application/json" }
+        });
+
+        if (res.ok) {
+          statusEl.textContent = "Thanks — we received your note and will follow up shortly.";
+          form.reset();
+        } else {
+          statusEl.textContent = "Something went wrong. Please try again.";
+        }
+      } catch (err) {
+        statusEl.textContent = "Network error. Please try again.";
+      }
+    });
   </script>
 
 </body>
