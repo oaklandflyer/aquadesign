@@ -3,354 +3,689 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Aqua Design Collective | Aquascape Rentals & Design</title>
+  <title>Aqua Design Collective | Aquascape Design</title>
 
   <!-- SEO -->
-  <meta name="description" content="Premium aquascape rentals, custom aquarium design, and maintenance for homes, offices, and hospitality spaces." />
-  <meta name="keywords" content="aquascape rentals, aquarium design, planted tanks, office aquariums" />
+  <meta name="description" content="Aqua Design Collective offers premium aquascape rentals, custom aquarium design, and maintenance for offices, hospitality, and modern homes." />
+  <meta name="keywords" content="aquascape rentals, aquarium design, planted tanks, aquarium maintenance" />
 
   <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
-    :root {
-      --bg-main: #0e1114;
-      --bg-card: rgba(21, 26, 31, 0.88);
-      --text-primary: #f5f7fa;
-      --text-muted: #a0a6ad;
-      --accent: #4fd1c5;
-      --border-subtle: rgba(255,255,255,0.10);
+    :root{
+      /* Logo-led palette (deep navy + reef teal + soft silver) */
+      --ink: #0b1f2a;
+      --ink-2: rgba(11,31,42,.72);
+      --line: rgba(11,31,42,.14);
+
+      --reef: #2aa6a0;
+      --reef-soft: rgba(42,166,160,.14);
+
+      --paper: #0f1114;
+
+      /* Requested: light gray-ish white header */
+      --header: #f1f3f5;
+      --header-ink: #0b1f2a;
+      --header-line: rgba(11,31,42,.14);
+
+      --radius: 16px;
+      --max: 1160px;
+      --shadow: 0 18px 60px rgba(0,0,0,.35);
+
+      --header-h: 76px; /* used for offset spacing */
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    *{ box-sizing:border-box; margin:0; padding:0; }
+    html{ scroll-behavior:smooth; }
+    body{
+      font-family: "Bricolage Grotesque", Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: var(--paper);
+      color: rgba(255,255,255,.92);
+      line-height: 1.55;
+      overflow-x:hidden;
+    }
+    a{ color: inherit; text-decoration:none; }
+    img{ display:block; max-width:100%; }
 
-    body {
-      font-family: 'Montserrat', sans-serif;
-      color: var(--text-primary);
-      background: var(--bg-main);
-      line-height: 1.6;
-      overflow-x: hidden;
+    .container{
+      width: min(var(--max), calc(100% - 3rem));
+      margin: 0 auto;
     }
 
-    a { color: inherit; text-decoration: none; }
-
-   /* ===== Aquatic Background (refractions + light shafts, NOT radial blobs) ===== */
-body::before,
-body::after {
-  content: "";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-}
-
-/* Deep-water base + angled refraction beams (light-to-dark) */
-body::before {
-  z-index: -2;
-  background:
-    /* dark depth gradient */
-    linear-gradient(to bottom, #03060a 0%, #071523 45%, #04101a 100%),
-
-    /* broad light shafts from surface (angled) */
-    linear-gradient(115deg,
-      rgba(90,190,255,0.12) 0%,
-      rgba(90,190,255,0.06) 10%,
-      transparent 22%
-    ),
-    linear-gradient(235deg,
-      rgba(90,190,255,0.10) 0%,
-      rgba(90,190,255,0.05) 12%,
-      transparent 26%
-    ),
-    linear-gradient(92deg,
-      rgba(120,220,255,0.06) 0%,
-      transparent 18%
-    ),
-
-    /* subtle refraction streaks (thin, repeated) */
-    repeating-linear-gradient(
-      112deg,
-      rgba(120,220,255,0.08) 0px,
-      rgba(120,220,255,0.00) 22px,
-      rgba(120,220,255,0.06) 44px,
-      rgba(120,220,255,0.00) 78px
-    ),
-    repeating-linear-gradient(
-      248deg,
-      rgba(79,209,197,0.06) 0px,
-      rgba(79,209,197,0.00) 26px,
-      rgba(79,209,197,0.05) 58px,
-      rgba(79,209,197,0.00) 96px
-    );
-  opacity: 1;
-}
-
-/* Caustic shimmer layer (refraction ripples moving downward) */
-body::after {
-  z-index: -1;
-  opacity: 0.16;
-  mix-blend-mode: screen;
-  background:
-    repeating-linear-gradient(
-      100deg,
-      rgba(120,200,255,0.10) 0px,
-      rgba(120,200,255,0.00) 18px,
-      rgba(120,200,255,0.07) 42px,
-      rgba(120,200,255,0.00) 78px
-    ),
-    repeating-linear-gradient(
-      260deg,
-      rgba(79,209,197,0.07) 0px,
-      rgba(79,209,197,0.00) 22px,
-      rgba(79,209,197,0.05) 54px,
-      rgba(79,209,197,0.00) 98px
-    );
-  filter: blur(0.7px);
-  animation: refraction-drift 26s ease-in-out infinite;
-}
-
-@keyframes refraction-drift {
-  0%   { transform: translate3d(0, 0, 0); }
-  50%  { transform: translate3d(-22px, 18px, 0); }
-  100% { transform: translate3d(0, 0, 0); }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  body::after { animation: none; }
-}
-
-.site { position: relative; z-index: 1; }
-
-
-    /* ===== Navigation (ASF Visuals style) ===== */
-    .nav {
+    /* ===== Header / Navigation (centered, quiet, typographic) ===== */
+    .header{
       position: sticky;
       top: 0;
-      z-index: 100;
-      background: rgba(14,17,20,0.55);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border-subtle);
+      z-index: 300;
+      background: var(--header);
+      color: var(--header-ink);
+      border-bottom: 1px solid var(--header-line);
+      transition: transform 220ms ease;
+      will-change: transform;
+    }
+    .header.is-hidden{
+      transform: translateY(-110%);
     }
 
-    .nav-inner {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 1.2rem 1.5rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .logo {
-      font-weight: 700;
-      letter-spacing: 0.02em;
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 1.5rem;
-    }
-
-    .nav-links a {
-      font-weight: 600;
-      color: var(--text-muted);
-    }
-
-    .nav-links a:hover {
-      color: var(--text-primary);
-    }
-
-    .nav-toggle {
-      display: none;
-      background: none;
-      border: none;
-      cursor: pointer;
-    }
-
-    .nav-toggle span {
-      display: block;
-      width: 22px;
-      height: 2px;
-      background: var(--text-primary);
-      margin: 5px 0;
-      transition: 0.3s ease;
-    }
-
-    .mobile-menu {
-      display: none;
-      flex-direction: column;
-      background: rgba(14,17,20,0.95);
-      border-top: 1px solid var(--border-subtle);
-    }
-
-    .mobile-menu a {
-      padding: 1.2rem 1.5rem;
-      font-weight: 600;
-      border-bottom: 1px solid var(--border-subtle);
-    }
-
-    .nav.open .mobile-menu {
-      display: flex;
-    }
-
-    @media (max-width: 768px) {
-      .nav-links { display: none; }
-      .nav-toggle { display: block; }
-    }
-
-    /* ===== Layout ===== */
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 4rem 1.5rem;
-    }
-
-    /* ===== Hero ===== */
-    .hero {
-      min-height: 80vh;
-      display: flex;
-      align-items: center;
-      position: relative;
-      background:
-        radial-gradient(1200px 600px at 50% -10%, rgba(40,120,160,0.20), transparent 60%),
-        linear-gradient(to bottom, #05080c, #07131f, #04121b);
-    }
-
-    .hero-content {
-      max-width: 700px;
-      position: relative;
-      z-index: 2;
-    }
-
-    .hero h1 {
-      font-size: clamp(2.5rem, 5vw, 3.5rem);
-      margin-bottom: 1rem;
-    }
-
-    .hero p {
-      color: var(--text-muted);
-      margin-bottom: 2rem;
-      font-size: 1.1rem;
-    }
-
-    .btn {
-      display: inline-block;
-      padding: 0.9rem 1.6rem;
-      border-radius: 6px;
-      font-weight: 600;
-      margin-right: 1rem;
-    }
-
-    .btn-primary {
-      background: var(--accent);
-      color: #000;
-    }
-
-    .btn-secondary {
-      border: 1px solid var(--border-subtle);
-      background: rgba(0,0,0,0.25);
-    }
-
-    /* ===== Cards ===== */
-    .grid {
+    .header-inner{
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 2rem;
+      grid-template-columns: 1fr auto 1fr; /* left | centered nav | right */
+      align-items: center;
+      padding: 1.1rem 0;
+      gap: 1rem;
+      min-height: var(--header-h);
     }
 
-    .card {
-      background: var(--bg-card);
-      padding: 2rem;
-      border-radius: 10px;
-      border: 1px solid var(--border-subtle);
-      backdrop-filter: blur(10px);
+    .brand{
+      display:flex;
+      align-items:center;
+      gap: .85rem;
+      min-width: 0;
+    }
+    .brand-mark{
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, rgba(11,31,42,.08), rgba(42,166,160,.16));
+      border: 1px solid rgba(11,31,42,.18);
+      overflow:hidden;
+      display:grid;
+      place-items:center;
+      flex: 0 0 auto;
+    }
+    .brand-mark img{ width:100%; height:100%; object-fit: cover; }
+
+    .brand-text{
+      display:flex;
+      flex-direction:column;
+      line-height: 1.05;
+      min-width:0;
+    }
+    .brand-text strong{
+      font-weight: 750;
+      letter-spacing: .01em;
+      white-space: nowrap;
+      overflow:hidden;
+      text-overflow: ellipsis;
+    }
+    .brand-text span{
+      margin-top:.25rem;
+      font-size:.86rem;
+      color: rgba(11,31,42,.68);
+      white-space: nowrap;
+      overflow:hidden;
+      text-overflow: ellipsis;
     }
 
-    .card p { color: var(--text-muted); }
+    .nav{
+      justify-self: center;
+      display:flex;
+      align-items:center;
+      gap: 2.2rem;
+    }
+    .nav a{
+      font-weight: 650;
+      letter-spacing: .01em;
+      color: rgba(11,31,42,.78);
+      padding: .35rem 0;
+      position: relative;
+    }
+    .nav a:hover{ color: rgba(11,31,42,1); }
+    .nav a::after{
+      content:"";
+      position:absolute;
+      left:0;
+      bottom:-6px;
+      width: 0;
+      height: 2px;
+      background: var(--reef);
+      border-radius: 999px;
+      transition: width .18s ease;
+    }
+    .nav a:hover::after{ width: 100%; }
 
-    /* ===== CTA ===== */
-    .cta {
-      background: linear-gradient(135deg, #071521, #0b2a33, #0b3b46);
-      padding: 4rem 2rem;
+    .header-right{
+      justify-self: end;
+      display:flex;
+      align-items:center;
+      gap: .75rem;
+    }
+
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:.55rem;
+      padding: .82rem 1.05rem;
+      border-radius: 999px;
+      font-weight: 700;
+      border: 1px solid transparent;
+      cursor:pointer;
+      transition: transform .12s ease, background .16s ease, border-color .16s ease;
+      user-select:none;
+      white-space: nowrap;
+    }
+    .btn:active{ transform: translateY(1px); }
+    .btn-cta{
+      background: var(--reef);
+      color: #062022;
+    }
+    .btn-cta:hover{ background: #2bb7b0; }
+    .btn-ghost{
+      background: transparent;
+      border-color: rgba(11,31,42,.18);
+      color: rgba(11,31,42,.84);
+    }
+    .btn-ghost:hover{ background: rgba(11,31,42,.06); }
+
+    /* Mobile toggle */
+    .toggle{
+      display:none;
+      width: 46px;
+      height: 46px;
+      border-radius: 12px;
+      border: 1px solid rgba(11,31,42,.18);
+      background: rgba(255,255,255,.65);
+      cursor:pointer;
+      position:relative;
+    }
+    .toggle span{
+      position:absolute;
+      left: 12px;
+      right: 12px;
+      height: 2px;
+      background: rgba(11,31,42,.9);
+      border-radius: 999px;
+      transition: transform .18s ease, top .18s ease, opacity .18s ease;
+    }
+    .toggle span:nth-child(1){ top: 16px; }
+    .toggle span:nth-child(2){ top: 22px; }
+    .toggle span:nth-child(3){ top: 28px; }
+
+    .header.is-open .toggle span:nth-child(1){ top: 22px; transform: rotate(45deg); }
+    .header.is-open .toggle span:nth-child(2){ opacity:0; }
+    .header.is-open .toggle span:nth-child(3){ top: 22px; transform: rotate(-45deg); }
+
+    /* Mobile drawer (optimized: large tap targets, body lock) */
+    .drawer{
+      display:none;
+      border-top: 1px solid rgba(11,31,42,.12);
+      background: var(--header);
+    }
+    .drawer-inner{
+      padding: .6rem 0 1.25rem;
+      display:flex;
+      flex-direction:column;
+      gap: .15rem;
+    }
+    .drawer a{
+      padding: 1.05rem .25rem;
+      font-weight: 750;
+      color: rgba(11,31,42,.85);
+      border-bottom: 1px solid rgba(11,31,42,.10);
+    }
+    .drawer a:hover{ color: rgba(11,31,42,1); }
+    .drawer-actions{
+      display:flex;
+      gap: .75rem;
+      padding-top: 1rem;
+    }
+    .drawer-actions .btn{ width: 100%; }
+
+    @media (max-width: 860px){
+      .header-inner{ grid-template-columns: 1fr auto; }
+      .nav, .header-right{ display:none; }
+      .toggle{ display:inline-block; }
+      .drawer{ display:block; max-height: 0; overflow:hidden; transition: max-height .22s ease; }
+      .header.is-open .drawer{ max-height: 360px; }
+    }
+
+    /* ===== Background image BELOW header ===== */
+    .bg-hero{
+      /* Put the image under the header. */
+      background:
+        linear-gradient(to bottom, rgba(15,17,20,0.35) 0%, rgba(15,17,20,0.92) 78%, rgba(15,17,20,1) 100%),
+        url("assets/aquascape-bg.png");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+
+    /* ===== Hero (minimal, logo-led) ===== */
+    .hero{
+      padding: 5.2rem 0 3.3rem;
+    }
+    .kicker{
+      display:inline-flex;
+      align-items:center;
+      gap:.55rem;
+      padding:.42rem .8rem;
+      border-radius:999px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.05);
+      color: rgba(255,255,255,.76);
+      font-weight: 700;
+      margin-bottom: 1.1rem;
+      backdrop-filter: blur(6px);
+    }
+    .kicker i{
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--reef);
+      display:inline-block;
+      box-shadow: 0 0 0 6px rgba(42,166,160,.16);
+    }
+
+    h1{
+      font-size: clamp(2.25rem, 5.2vw, 4.1rem);
+      line-height: 1.03;
+      letter-spacing: -0.02em;
+      margin-bottom: 1.05rem;
+      text-shadow: 0 10px 30px rgba(0,0,0,.40);
+    }
+    .hero p{
+      color: rgba(255,255,255,.78);
+      font-size: clamp(1.05rem, 1.35vw, 1.2rem);
+      max-width: 62ch;
+      text-shadow: 0 10px 26px rgba(0,0,0,.35);
+    }
+    .hero-actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:.75rem;
+      margin-top: 1.6rem;
+    }
+
+    /* ===== Sections ===== */
+    .section{
+      padding: 3.1rem 0;
+    }
+    .section h2{
+      font-size: clamp(1.6rem, 2.4vw, 2.25rem);
+      letter-spacing: -0.01em;
+      margin-bottom: .65rem;
+    }
+    .section .lede{
+      color: rgba(255,255,255,.70);
+      max-width: 72ch;
+    }
+
+    .cards{
+      display:grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 1.1rem;
+      margin-top: 1.65rem;
+    }
+    .card{
+      grid-column: span 4;
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.05);
+      border: 1px solid rgba(255,255,255,.12);
+      padding: 1.6rem;
+      box-shadow: 0 12px 32px rgba(0,0,0,.18);
+    }
+    .card h3{
+      font-size: 1.08rem;
+      margin-bottom: .55rem;
+      letter-spacing: .01em;
+    }
+    .card p{ color: rgba(255,255,255,.70); }
+
+    /* subtle "reef line" divider inspired by logo strokes */
+    .reef-line{
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(42,166,160,.65), transparent);
+      margin-top: 1.3rem;
+    }
+
+    @media (max-width: 900px){
+      .hero{ padding: 4.2rem 0 2.6rem; }
+      .card{ grid-column: span 12; }
+    }
+
+    /* Contact */
+    .contact{
+      padding: 3.4rem 0 4.4rem;
+    }
+    .contact-shell{
+      border-radius: calc(var(--radius) + 8px);
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.14);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .contact-head{
+      padding: 2.0rem 2rem 0;
+    }
+    .contact-head p{
+      color: rgba(255,255,255,.74);
+      margin-top: .6rem;
+      max-width: 72ch;
+    }
+    form{
+      padding: 1.5rem 2rem 2rem;
+    }
+    .form-grid{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.2rem;
+      margin-top: 1.2rem;
+    }
+    label{
+      display:block;
+      font-weight: 750;
+      margin-bottom: .55rem;
+      letter-spacing: .01em;
+      color: rgba(255,255,255,.90);
+    }
+    input, textarea{
+      width:100%;
+      background: rgba(0,0,0,.22);
+      border: 1px solid rgba(255,255,255,.16);
+      color: rgba(255,255,255,.94);
       border-radius: 14px;
-      text-align: center;
-      border: 1px solid var(--border-subtle);
+      padding: .95rem 1rem;
+      outline:none;
+      font: inherit;
+      transition: border-color .16s ease, background .16s ease;
+    }
+    textarea{ min-height: 140px; resize: vertical; }
+    input:focus, textarea:focus{
+      border-color: rgba(42,166,160,.70);
+      background: rgba(0,0,0,.30);
+    }
+    .helper{
+      color: rgba(255,255,255,.64);
+      font-size: .9rem;
+      margin-top: .55rem;
+    }
+    .actions{
+      display:flex;
+      gap: .8rem;
+      flex-wrap:wrap;
+      margin-top: 1.2rem;
+    }
+    .status{
+      display:none;
+      margin-top: 1rem;
+      color: rgba(255,255,255,.72);
+      font-weight: 700;
+    }
+    .status.show{ display:block; }
+    .status.ok{ color: rgba(42,166,160,.92); }
+    .status.err{ color: rgba(255,160,160,.92); }
+
+    @media (max-width: 900px){
+      .contact-head{ padding: 1.6rem 1.25rem 0; }
+      form{ padding: 1.15rem 1.25rem 1.6rem; }
+      .form-grid{ grid-template-columns: 1fr; }
+      .actions .btn{ width: 100%; }
     }
 
-    footer {
-      padding: 2rem;
-      text-align: center;
-      font-size: 0.9rem;
-      color: var(--text-muted);
-      border-top: 1px solid var(--border-subtle);
-      background: rgba(14,17,20,0.45);
+    footer{
+      border-top: 1px solid rgba(255,255,255,.12);
+      padding: 2.2rem 0;
+      color: rgba(255,255,255,.64);
+      font-size: .92rem;
+    }
+    .footer-inner{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap: 1rem;
+      flex-wrap:wrap;
+    }
+    .footer-inner a:hover{ color: rgba(255,255,255,.92); }
+
+    /* Reduced motion */
+    @media (prefers-reduced-motion: reduce){
+      .header{ transition: none; }
+      html{ scroll-behavior: auto; }
     }
   </style>
 </head>
 
 <body>
-<div class="site">
+  <!-- HEADER -->
+  <header class="header" id="top">
+    <div class="container header-inner">
+      <a class="brand" href="#top" aria-label="Aqua Design Collective home">
+        <div class="brand-mark" aria-hidden="true">
+          <!-- Point this to your logo file. If missing, it falls back to the gradient tile. -->
+          <img src="assets/adc-logo.png" alt="" onerror="this.style.display='none'">
+        </div>
+        <div class="brand-text">
+          <strong>Aqua Design Collective</strong>
+          <span>Aquascape Design • Rentals • Care</span>
+        </div>
+      </a>
 
-  <header class="nav">
-    <div class="nav-inner">
-      <strong class="logo">Aqua Design Collective</strong>
-
-      <nav class="nav-links">
-        <a href="rentals.html">Rentals</a>
-        <a href="gallery.html">Gallery</a>
-        <a href="clients.html">Clients</a>
-        <a href="contact.html">Contact</a>
+      <!-- Centered desktop nav -->
+      <nav class="nav" aria-label="Primary">
+        <a href="#services">Services</a>
+        <a href="#contact">Contact</a>
       </nav>
 
-      <button class="nav-toggle" aria-label="Toggle Menu">
+      <div class="header-right">
+        <a class="btn btn-ghost" href="#services">Services</a>
+        <a class="btn btn-cta" href="#contact">Get a Quote</a>
+      </div>
+
+      <!-- Mobile toggle -->
+      <button class="toggle" id="navToggle" type="button"
+        aria-label="Open menu" aria-expanded="false" aria-controls="mobileDrawer">
         <span></span><span></span><span></span>
       </button>
     </div>
 
-    <div class="mobile-menu">
-      <a href="rentals.html">Rentals</a>
-      <a href="gallery.html">Gallery</a>
-      <a href="clients.html">Clients</a>
-      <a href="contact.html">Contact</a>
+    <!-- Mobile drawer -->
+    <div class="drawer" id="mobileDrawer" role="region" aria-label="Mobile menu">
+      <div class="container drawer-inner">
+        <a href="#services">Services</a>
+        <a href="#contact">Contact</a>
+
+        <div class="drawer-actions">
+          <a class="btn btn-ghost" href="#services">Services</a>
+          <a class="btn btn-cta" href="#contact">Get a Quote</a>
+        </div>
+      </div>
     </div>
   </header>
 
-  <section class="hero">
-    <div class="container hero-content">
-      <h1>Living Aquascapes, Designed to Elevate Your Space</h1>
-      <p>Premium aquascape rentals and custom aquarium installations for offices, hospitality, and modern homes.</p>
-      <a href="rentals.html" class="btn btn-primary">Browse Rentals</a>
-      <a href="gallery.html" class="btn btn-secondary">View Gallery</a>
+  <!-- HERO BACKGROUND AREA (below nav) -->
+  <div class="bg-hero">
+    <main>
+      <section class="hero">
+        <div class="container">
+          <div class="kicker"><i></i> Planted aquascapes, designed to belong</div>
+          <h1>Modern aquascapes that feel like design.</h1>
+          <p>
+            Premium planted aquariums for offices, hospitality, and homes—clean lines, calm movement,
+            and maintenance that keeps everything looking intentional.
+          </p>
+
+          <div class="hero-actions">
+            <a class="btn btn-cta" href="#contact">Contact</a>
+            <a class="btn btn-ghost" href="#services">View Services</a>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- SERVICES -->
+  <section class="section" id="services">
+    <div class="container">
+      <h2>Services</h2>
+      <p class="lede">Simple, premium offerings—built around your space and maintained to stay beautiful.</p>
+
+      <div class="cards">
+        <div class="card">
+          <h3>Aquascape Rentals</h3>
+          <p>Ready-to-place planted tanks for lobbies, offices, and residences—delivered, placed, and tuned for the room.</p>
+          <div class="reef-line"></div>
+        </div>
+
+        <div class="card">
+          <h3>Custom Design & Install</h3>
+          <p>From concept to final styling: tank selection, hardscape, planting, lighting, filtration, and placement.</p>
+          <div class="reef-line"></div>
+        </div>
+
+        <div class="card">
+          <h3>Maintenance</h3>
+          <p>Consistent care that protects the look: water quality, trimming, algae control, and system optimization.</p>
+          <div class="reef-line"></div>
+        </div>
+      </div>
     </div>
   </section>
 
-  <section class="container">
-    <h2>What We Do</h2>
-    <p class="section-intro">Curated planted aquariums that bring calm, movement, and life into designed spaces.</p>
-    <div class="grid">
-      <div class="card"><h3>Aquascape Rentals</h3><p>Ready-to-place aquascapes for homes and offices.</p></div>
-      <div class="card"><h3>Custom Design</h3><p>Bespoke aquariums built to your space.</p></div>
-      <div class="card"><h3>Maintenance</h3><p>Professional ongoing care and optimization.</p></div>
-    </div>
-  </section>
+  <!-- CONTACT -->
+  <section class="contact" id="contact">
+    <div class="container">
+      <div class="contact-shell">
+        <div class="contact-head">
+          <h2>Contact</h2>
+          <p>Leave a contact email and a short note about your space. We’ll respond with the right next steps.</p>
+        </div>
 
-  <section class="container">
-    <div class="cta">
-      <h2>Ready to Transform Your Space?</h2>
-      <p>Tell us about your space and we’ll guide you.</p>
-      <a href="contact.html" class="btn btn-primary">Request a Quote</a>
+        <form id="inquiryForm" action="https://formspree.io/f/mbdkrzrj" method="POST" novalidate>
+          <input type="hidden" name="_subject" value="New Aqua Design Collective Inquiry" />
+          <input type="hidden" name="_template" value="table" />
+          <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off" />
+
+          <div class="form-grid">
+            <div>
+              <label for="email">Contact Email</label>
+              <input id="email" name="email" type="email" placeholder="you@email.com" required />
+              <div class="helper">We’ll only use this to respond to your request.</div>
+            </div>
+
+            <div>
+              <label for="note">Short Note</label>
+              <textarea id="note" name="message" placeholder="Office lobby, hotel reception, home—what are you looking for?" required></textarea>
+            </div>
+          </div>
+
+          <div class="actions">
+            <button class="btn btn-cta" type="submit">Send</button>
+            <a class="btn btn-ghost" href="#services">Services</a>
+          </div>
+
+          <div class="status" id="form-status" aria-live="polite"></div>
+        </form>
+      </div>
     </div>
   </section>
 
   <footer>
-    © <span id="year"></span> Aqua Design Collective
+    <div class="container footer-inner">
+      <div>© <span id="year"></span> Aqua Design Collective</div>
+      <div style="display:flex; gap:1rem; flex-wrap:wrap;">
+        <a href="#services">Services</a>
+        <a href="#contact">Contact</a>
+        <a href="#top">Top</a>
+      </div>
+    </div>
   </footer>
 
-</div>
+  <script>
+    // Year
+    document.getElementById("year").textContent = new Date().getFullYear();
 
-<script>
-  document.getElementById("year").textContent = new Date().getFullYear();
-  const nav = document.querySelector(".nav");
-  document.querySelector(".nav-toggle").onclick = () => nav.classList.toggle("open");
-</script>
+    // Mobile nav
+    const header = document.querySelector(".header");
+    const toggle = document.getElementById("navToggle");
+    const drawer = document.getElementById("mobileDrawer");
+
+    function setOpen(open){
+      header.classList.toggle("is-open", open);
+      toggle.setAttribute("aria-expanded", String(open));
+      toggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+      document.body.style.overflow = open ? "hidden" : "";
+    }
+
+    toggle.addEventListener("click", () => setOpen(!header.classList.contains("is-open")));
+    drawer.querySelectorAll("a").forEach(a => a.addEventListener("click", () => setOpen(false)));
+
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && header.classList.contains("is-open")) setOpen(false);
+    });
+
+    window.addEventListener("resize", () => {
+      if (window.innerWidth > 860 && header.classList.contains("is-open")) setOpen(false);
+    });
+
+    // Header hide-on-scroll, show when scrolling stops (requested)
+    let scrollTimer = null;
+    let lastY = window.scrollY;
+
+    function hideHeader(){
+      if (!header.classList.contains("is-open")) header.classList.add("is-hidden");
+    }
+    function showHeader(){
+      header.classList.remove("is-hidden");
+    }
+
+    window.addEventListener("scroll", () => {
+      // ignore if menu is open
+      if (header.classList.contains("is-open")) return;
+
+      const y = window.scrollY;
+      const delta = Math.abs(y - lastY);
+      lastY = y;
+
+      if (delta > 2) hideHeader();
+
+      if (scrollTimer) clearTimeout(scrollTimer);
+      scrollTimer = setTimeout(() => {
+        showHeader();
+      }, 180); // "stop scrolling" debounce
+    }, { passive: true });
+
+    // Formspree AJAX submit + status
+    const form = document.getElementById("inquiryForm");
+    const statusEl = document.getElementById("form-status");
+
+    function setStatus(message, type){
+      statusEl.textContent = message;
+      statusEl.classList.add("show");
+      statusEl.classList.remove("ok","err");
+      if (type) statusEl.classList.add(type);
+    }
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      if (!form.checkValidity()){
+        setStatus("Please add a valid email and a short note.", "err");
+        form.reportValidity();
+        return;
+      }
+
+      setStatus("Sending…");
+
+      try{
+        const res = await fetch(form.action, {
+          method: "POST",
+          headers: { "Accept": "application/json" },
+          body: new FormData(form)
+        });
+
+        if (res.ok){
+          setStatus("Sent. We'll get back to you shortly.", "ok");
+          form.reset();
+        } else {
+          setStatus("Something went wrong. Please try again.", "err");
+        }
+      } catch(err){
+        setStatus("Network error. Please try again.", "err");
+      }
+    });
+  </script>
 </body>
 </html>
