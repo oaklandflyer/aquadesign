@@ -544,7 +544,80 @@
       </div>
     </div>
   </section>
+  <!-- GALLERY -->
+  <section class="section" id="gallery">
+    <div class="container">
+      <h2>Gallery</h2>
+      <p class="lede">A look at our builds — from planted office installations to custom residential tanks.</p>
 
+      <div id="gallery-grid" style="
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 1.1rem;
+        margin-top: 1.65rem;
+      "></div>
+
+      <div id="gallery-empty" style="display:none; color:rgba(255,255,255,.38); padding: 2rem 0; text-align:center;">
+        Photos coming soon.
+      </div>
+    </div>
+  </section>
+
+  <!-- Lightbox overlay -->
+  <div id="lightbox" style="
+    display:none; position:fixed; inset:0; background:rgba(0,0,0,.88);
+    z-index:500; place-items:center; cursor:pointer;
+  " onclick="this.style.display='none'">
+    <img id="lightbox-img" src="" alt="" style="max-width:90vw; max-height:90vh; border-radius:12px; box-shadow:0 24px 80px rgba(0,0,0,.6);" />
+  </div>
+
+  <script type="module">
+    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+
+    // ⚠️ PASTE YOUR KEYS HERE
+    const SUPABASE_URL = 'https://akeifjqujqjfbcutawij.supabase.co';
+    const SUPABASE_ANON_KEY = 'sb_publishable__0RE4Dc9aqKVIjGmCZFmJg_WK0RKH8f';
+    const BUCKET = 'gallery';
+
+    const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    const grid = document.getElementById('gallery-grid');
+    const empty = document.getElementById('gallery-empty');
+
+    const { data, error } = await supabase.storage.from(BUCKET).list('', {
+      limit: 100,
+      sortBy: { column: 'created_at', order: 'desc' }
+    });
+
+    const photos = (data || []).filter(f => f.name !== '.emptyFolderPlaceholder');
+
+    if (error || photos.length === 0) {
+      empty.style.display = 'block';
+    } else {
+      photos.forEach(file => {
+        const { data: { publicUrl } } = supabase.storage.from(BUCKET).getPublicUrl(file.name);
+
+        const img = document.createElement('img');
+        img.src = publicUrl;
+        img.alt = 'Aqua Design Collective';
+        img.loading = 'lazy';
+        img.style.cssText = `
+          width:100%; aspect-ratio:4/3; object-fit:cover;
+          border-radius:16px; cursor:pointer; display:block;
+          border: 1px solid rgba(255,255,255,.10);
+          transition: transform .2s, box-shadow .2s;
+        `;
+        img.onmouseover = () => { img.style.transform = 'scale(1.02)'; img.style.boxShadow = '0 16px 40px rgba(0,0,0,.4)'; };
+        img.onmouseout = () => { img.style.transform = ''; img.style.boxShadow = ''; };
+        img.onclick = () => {
+          document.getElementById('lightbox-img').src = publicUrl;
+          document.getElementById('lightbox').style.display = 'grid';
+        };
+
+        grid.appendChild(img);
+      });
+    }
+  </script>
   <!-- CONTACT -->
   <section class="contact" id="contact">
     <div class="container">
