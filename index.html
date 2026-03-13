@@ -2,734 +2,496 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Aqua Design Collective | Aquascape Design</title>
-
   <meta name="description" content="Aqua Design Collective offers premium aquascape rentals, custom aquarium design, and maintenance for offices, hospitality, and modern homes." />
-  <meta name="keywords" content="aquascape rentals, aquarium design, planted tanks, aquarium maintenance" />
+  <meta name="keywords" content="aquascape rentals, aquarium design, planted tanks, aquarium maintenance, Pittsburgh" />
   <meta property="og:title" content="Aqua Design Collective" />
   <meta property="og:description" content="Premium planted aquariums for offices, hospitality, and homes." />
   <meta property="og:type" content="website" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Montserrat:wght@400;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="icon" type="image/png" href="assets/ADC Logo.png">
   <link rel="apple-touch-icon" href="assets/ADC Logo.png">
 
   <style>
-    /* ─── TOKENS ─── */
     :root {
-      --ink:        #080f14;
-      --deep:       #0c1a24;
-      --surface:    #101e28;
-      --panel:      rgba(255,255,255,.035);
-      --border:     rgba(255,255,255,.08);
-      --border-act: rgba(42,180,165,.35);
-      --reef:       #2ab4a5;
-      --reef-dim:   rgba(42,180,165,.12);
-      --reef-glow:  rgba(42,180,165,.22);
-      --text:       rgba(255,255,255,.88);
-      --muted:      rgba(255,255,255,.46);
-      --white:      #f0f6f5;
-      --serif:      'Cormorant Garamond', Georgia, serif;
-      --sans:       'Outfit', system-ui, sans-serif;
-      --radius:     14px;
-      --max:        1140px;
-      --hh:         72px;
+      --accent:    #2ab4a5;
+      --ink:       rgba(255,255,255,.90);
+      --muted:     #7aaaa4;
+      --bg:        #080f14;
+      --panel:     #0f1c24;
+      --panel-2:   #0b1820;
+      --line:      rgba(255,255,255,.08);
+      --cta:       #2ab4a5;
+      --cta-ink:   #030d0c;
+      --container: min(1160px, 92vw);
+      --radius:    16px;
     }
-
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
-    body {
-      font-family: var(--sans);
-      background: var(--ink);
-      color: var(--text);
-      line-height: 1.6;
-      overflow-x: hidden;
-    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; margin: 0; padding: 0; }
+    body { font-family: 'Montserrat', Arial, sans-serif; background: var(--bg); color: var(--ink); margin: 0; padding: 0; line-height: 1.55; overflow-x: hidden; }
+    img { max-width: 100%; display: block; }
     a { color: inherit; text-decoration: none; }
-    img { display: block; max-width: 100%; }
+    section { scroll-margin-top: 90px; }
+    .container { width: var(--container); margin-inline: auto; }
+    .hidden { display: none !important; }
 
-    .container {
-      width: min(var(--max), calc(100% - 2.8rem));
-      margin: 0 auto;
+    .eyebrow {
+      font-size: .67rem; font-weight: 700; letter-spacing: .24em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: .85rem;
+      display: flex; align-items: center; gap: .6rem;
     }
+    .eyebrow::before { content: ''; display: block; width: 22px; height: 1.5px; background: var(--accent); flex-shrink: 0; }
 
-    /* ─── NOISE OVERLAY ─── */
-    body::before {
-      content: '';
-      position: fixed; inset: 0; z-index: 0; pointer-events: none;
-      opacity: .025;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-      background-size: 200px 200px;
-    }
-
-    /* ─── HEADER ─── */
-    .header {
-      position: sticky; top: 0; z-index: 300;
-      height: var(--hh);
-      display: flex; align-items: center;
-      background: rgba(8,15,20,.82);
-      backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
-      border-bottom: 1px solid var(--border);
-      transition: transform 220ms ease;
-      will-change: transform;
-    }
-    .header.is-hidden { transform: translateY(-110%); }
-
-    .header-inner {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 1rem;
-      width: 100%;
-    }
-
-    /* Brand */
-    .brand { display: flex; align-items: center; gap: .65rem; flex-shrink: 0; min-width: 0; }
-    .brand-mark {
-      width: 34px; height: 34px; border-radius: 9px; overflow: hidden;
-      border: 1px solid var(--border); flex-shrink: 0;
-      background: var(--reef-dim); display: grid; place-items: center;
-    }
-    .brand-mark img { width: 100%; height: 100%; object-fit: cover; }
-    .brand-name {
-      font-family: var(--serif);
-      font-size: 1.05rem; font-weight: 600;
-      letter-spacing: .01em; color: var(--white);
-      white-space: nowrap;
-    }
-    .brand-tag { display: none; }
-
-    /* Nav */
-    .nav { display: flex; gap: 1.8rem; flex-shrink: 0; }
-    .nav a {
-      font-size: .78rem; font-weight: 500;
-      letter-spacing: .06em; text-transform: uppercase;
-      color: var(--muted);
-      padding: .35rem 0; position: relative;
-      transition: color .15s; white-space: nowrap;
-    }
-    .nav a:hover { color: var(--white); }
-    .nav a::after {
-      content: ''; position: absolute; bottom: -2px; left: 0;
-      width: 0; height: 1px; background: var(--reef);
-      transition: width .2s;
-    }
-    .nav a:hover::after { width: 100%; }
-
-    /* Header right */
-    .header-right { display: flex; gap: .5rem; align-items: center; flex-shrink: 0; }
-
-    /* Buttons */
-    .btn {
-      display: inline-flex; align-items: center; justify-content: center; gap: .5rem;
-      padding: .6rem 1.25rem; border-radius: 999px;
-      font-family: var(--sans); font-size: .8rem; font-weight: 600;
-      letter-spacing: .05em; text-transform: uppercase;
-      border: 1px solid transparent; cursor: pointer;
-      transition: background .15s, border-color .15s, color .15s, transform .1s;
-      white-space: nowrap; user-select: none;
-    }
-    .btn:active { transform: translateY(1px); }
-    .btn-cta {
-      background: var(--reef); color: #041a18;
-      border-color: var(--reef);
-    }
-    .btn-cta:hover { background: #33c9b8; border-color: #33c9b8; }
-    .btn-ghost {
-      background: transparent; border-color: var(--border);
-      color: var(--muted);
-    }
-    .btn-ghost:hover { border-color: rgba(255,255,255,.2); color: var(--white); }
-    .btn-ghost-light {
-      background: rgba(255,255,255,.06);
-      border-color: rgba(255,255,255,.16); color: var(--text);
-    }
-    .btn-ghost-light:hover { background: rgba(255,255,255,.10); }
-
-    /* Mobile toggle */
-    .toggle {
-      display: none; width: 40px; height: 40px;
-      border-radius: 10px; border: 1px solid var(--border);
-      background: var(--panel); cursor: pointer; position: relative;
-    }
-    .toggle span {
-      position: absolute; left: 10px; right: 10px; height: 1.5px;
-      background: var(--text); border-radius: 999px;
-      transition: transform .18s, top .18s, opacity .18s;
-    }
-    .toggle span:nth-child(1) { top: 14px; }
-    .toggle span:nth-child(2) { top: 20px; }
-    .toggle span:nth-child(3) { top: 26px; }
-    .header.is-open .toggle span:nth-child(1) { top: 20px; transform: rotate(45deg); }
-    .header.is-open .toggle span:nth-child(2) { opacity: 0; }
-    .header.is-open .toggle span:nth-child(3) { top: 20px; transform: rotate(-45deg); }
-
-    /* Drawer */
-    .drawer {
-      display: none;
-      position: fixed; top: var(--hh); left: 0; right: 0;
-      background: rgba(8,15,20,.97);
-      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-      border-bottom: 1px solid var(--border);
-      max-height: 0; overflow: hidden;
-      transition: max-height .22s ease;
-      z-index: 299;
-    }
-    .header.is-open + .drawer { max-height: 440px; }
-    .drawer-inner { padding: .5rem 0 1.5rem; display: flex; flex-direction: column; gap: .1rem; }
-    .drawer a {
-      padding: 1rem 1.4rem; font-size: .9rem; font-weight: 500;
-      letter-spacing: .05em; text-transform: uppercase; color: var(--muted);
-      border-bottom: 1px solid var(--border);
-      transition: color .15s, background .15s;
-    }
-    .drawer a:hover { color: var(--white); background: var(--panel); }
-    .drawer-actions { display: flex; gap: .6rem; padding: 1.2rem 1.4rem 0; }
-    .drawer-actions .btn { flex: 1; justify-content: center; }
-
-    @media (max-width: 900px) {
-      .header-inner { justify-content: space-between; }
-      .nav, .header-right { display: none; }
-      .toggle { display: flex; align-items: center; justify-content: center; }
-      .drawer { display: block; }
-    }
-
-    /* ─── HERO ─── */
-    .bg-hero {
-      position: relative;
-      background:
-        linear-gradient(to bottom, rgba(8,15,20,.25) 0%, rgba(8,15,20,.78) 65%, rgba(8,15,20,1) 100%),
-        url("assets/aquascape-bg.png") center/cover no-repeat;
-      min-height: 92vh;
-      display: flex; flex-direction: column;
-    }
-
-    /* floating orb behind hero text */
-    .bg-hero::after {
-      content: '';
-      position: absolute; bottom: 10%; left: 50%; transform: translateX(-50%);
-      width: 600px; height: 300px;
-      background: radial-gradient(ellipse, rgba(42,180,165,.08) 0%, transparent 70%);
-      pointer-events: none;
-    }
-
-    .hero { padding: 7rem 0 3.5rem; position: relative; z-index: 1; }
-
-    .kicker {
-      display: inline-flex; align-items: center; gap: .6rem;
-      padding: .38rem .9rem; border-radius: 999px;
-      border: 1px solid rgba(42,180,165,.3);
-      background: rgba(42,180,165,.08);
-      color: var(--reef); font-size: .78rem; font-weight: 500;
-      letter-spacing: .08em; text-transform: uppercase;
-      margin-bottom: 1.6rem;
-      backdrop-filter: blur(8px);
-    }
-    .kicker i {
-      width: 7px; height: 7px; border-radius: 50%;
-      background: var(--reef); flex-shrink: 0;
-      box-shadow: 0 0 0 4px rgba(42,180,165,.2);
-      animation: pulse 2.4s ease infinite;
-    }
-    @keyframes pulse {
-      0%,100% { box-shadow: 0 0 0 4px rgba(42,180,165,.2); }
-      50%      { box-shadow: 0 0 0 8px rgba(42,180,165,.04); }
-    }
-
-    h1 {
-      font-family: var(--serif);
-      font-size: clamp(3rem, 6vw, 5.2rem);
-      font-weight: 300; line-height: 1.05;
-      letter-spacing: -.01em;
-      color: var(--white);
-      max-width: 16ch;
-      margin-bottom: 1.2rem;
-    }
-    h1 em { font-style: italic; color: var(--reef); }
-
-    .hero p {
-      color: var(--muted); font-size: clamp(1rem, 1.4vw, 1.15rem);
-      max-width: 52ch; line-height: 1.75; margin-bottom: 2.2rem;
-    }
-
-    .hero-actions { display: flex; flex-wrap: wrap; gap: .75rem; }
-
-    /* Stats strip */
-    .stats-strip {
-      position: relative; z-index: 1;
-      border-top: 1px solid var(--border);
-      margin-top: auto; padding: 2rem 0;
-    }
-    .stats-inner { display: flex; gap: 3.5rem; flex-wrap: wrap; }
-    .stat-num {
-      font-family: var(--serif);
-      font-size: 2.2rem; font-weight: 400; line-height: 1;
-      color: var(--reef);
-    }
-    .stat-label {
-      font-size: .72rem; font-weight: 500;
-      letter-spacing: .1em; text-transform: uppercase;
-      color: var(--muted); margin-top: .35rem;
-    }
-
-    /* ─── SECTION BASE ─── */
-    .section { padding: 6rem 0; position: relative; }
-    .section-tag {
-      display: inline-flex; align-items: center; gap: .55rem;
-      font-size: .72rem; font-weight: 500;
-      letter-spacing: .15em; text-transform: uppercase; color: var(--reef);
-      margin-bottom: 1rem;
-    }
-    .section-tag::before {
-      content: ''; display: block;
-      width: 22px; height: 1px; background: var(--reef);
-    }
-    .section h2 {
-      font-family: var(--serif);
-      font-size: clamp(2rem, 3.5vw, 3.2rem);
-      font-weight: 300; letter-spacing: -.01em;
-      color: var(--white); line-height: 1.15;
-      margin-bottom: .8rem;
-    }
-    .lede {
-      color: var(--muted); max-width: 56ch;
-      font-size: 1rem; line-height: 1.8;
-      margin-bottom: 3rem;
-    }
-
-    /* ─── SERVICES ─── */
-    #services { background: var(--deep); }
-    #services::before {
-      content: ''; position: absolute; top: 0; left: 0; right: 0;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, var(--reef-glow), transparent);
-    }
-
-    .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; }
-
-    .card {
-      background: var(--surface);
-      padding: 2.4rem 2rem;
-      position: relative; overflow: hidden;
-      transition: background .25s;
-    }
-    .card:hover { background: rgba(42,180,165,.05); }
-
-    /* accent bar on hover */
-    .card::after {
-      content: ''; position: absolute;
-      bottom: 0; left: 0; right: 0; height: 2px;
-      background: linear-gradient(90deg, var(--reef), transparent);
-      transform: scaleX(0); transform-origin: left;
-      transition: transform .35s ease;
-    }
-    .card:hover::after { transform: scaleX(1); }
-
-    /* Wrap the grid to add outer border/radius */
-    .cards-wrap {
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      overflow: hidden;
-      background: var(--border); /* acts as gap color */
-    }
-
-    .card-icon {
-      width: 44px; height: 44px; border-radius: 12px;
-      background: var(--reef-dim); border: 1px solid rgba(42,180,165,.18);
-      display: grid; place-items: center; margin-bottom: 1.6rem;
-      font-size: 1.3rem;
-    }
-    .card h3 {
-      font-family: var(--serif);
-      font-size: 1.45rem; font-weight: 400; color: var(--white);
-      margin-bottom: .6rem;
-    }
-    .card p { color: var(--muted); font-size: .9rem; line-height: 1.75; }
-    .reef-line {
-      height: 1px; margin-top: 1.6rem;
-      background: linear-gradient(90deg, rgba(42,180,165,.3), transparent);
-    }
-
-    @media (max-width: 860px) {
-      .cards { grid-template-columns: 1fr; }
-    }
-
-    /* ─── GALLERY ─── */
-    #gallery { background: var(--ink); }
-
-    #gallery-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: .75rem; margin-top: 0;
-    }
-    .gallery-item {
-      position: relative; border-radius: 10px; overflow: hidden;
-      aspect-ratio: 4/3;
-      background: var(--surface);
-      border: 1px solid var(--border); cursor: pointer;
-    }
-    .gallery-item img {
-      width: 100%; height: 100%; object-fit: cover;
-      transition: transform .4s ease;
-    }
-    .gallery-item:hover img { transform: scale(1.06); }
-    .gallery-item .overlay {
-      position: absolute; inset: 0;
-      background: linear-gradient(to top, rgba(0,0,0,.55) 0%, transparent 55%);
-      opacity: 0; transition: opacity .25s;
-      display: flex; align-items: flex-end; padding: 1rem;
-    }
-    .gallery-item:hover .overlay { opacity: 1; }
-    .gallery-item .overlay span {
-      color: rgba(255,255,255,.88); font-size: .78rem;
-      font-weight: 500; letter-spacing: .05em; text-transform: uppercase;
-    }
-
-    #gallery-loading {
-      text-align: center; padding: 4rem 0;
-      color: var(--muted);
-      display: flex; align-items: center; justify-content: center; gap: .75rem;
-      font-size: .9rem; letter-spacing: .06em; text-transform: uppercase;
-    }
-    .spinner {
-      width: 18px; height: 18px; border-radius: 50%;
-      border: 2px solid rgba(42,180,165,.2); border-top-color: var(--reef);
-      animation: spin .7s linear infinite;
-    }
-    @keyframes spin { to { transform: rotate(360deg); } }
-    #gallery-empty { display: none; text-align: center; padding: 5rem 0; color: var(--muted); }
-    #gallery-empty svg { margin: 0 auto 1rem; opacity: .3; }
-    #gallery-empty p { font-size: .9rem; letter-spacing: .05em; text-transform: uppercase; }
-
-    /* ─── LIGHTBOX ─── */
-    #lightbox {
-      display: none; position: fixed; inset: 0;
-      background: rgba(4,10,15,.94);
-      backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-      z-index: 500; place-items: center; cursor: pointer;
-    }
-    #lightbox.active { display: grid; }
-    #lightbox-img {
-      max-width: 90vw; max-height: 88vh;
-      border-radius: 12px;
-      box-shadow: 0 40px 120px rgba(0,0,0,.8);
-      pointer-events: none;
-    }
-    #lightbox-close {
-      position: fixed; top: 1.2rem; right: 1.4rem; z-index: 501;
-      width: 40px; height: 40px; border-radius: 50%;
-      border: 1px solid rgba(255,255,255,.15);
-      background: rgba(0,0,0,.5); color: rgba(255,255,255,.7);
+    /* ── HEADER ── */
+    .site-header {
+      position: fixed; inset-inline: 0; top: 0; z-index: 1000;
       display: flex; align-items: center; justify-content: center;
-      cursor: pointer; font-size: 1rem;
-      transition: background .15s, color .15s;
+      padding: 12px clamp(16px, 4vw, 48px);
+      background: rgba(8,15,20,.90);
+      backdrop-filter: saturate(140%) blur(12px);
+      border-bottom: 1px solid var(--line);
+      transition: padding .25s, background .2s;
     }
-    #lightbox-close:hover { background: rgba(0,0,0,.7); color: #fff; }
+    .site-header.scrolled { padding: 8px clamp(16px, 4vw, 48px); background: rgba(8,15,20,.97); }
+    .site-header .inner { width: var(--container); display: flex; align-items: center; justify-content: space-between; gap: 16px; }
 
-    /* ─── CONTACT ─── */
-    #contact { background: var(--deep); }
-    #contact::before {
-      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
-      background: linear-gradient(90deg, transparent, var(--reef-glow), transparent);
-    }
+    .brand { display: flex; align-items: center; gap: 10px; font-weight: 900; letter-spacing: .04em; flex-shrink: 0; }
+    .brand img { max-height: 38px; height: auto; width: auto; object-fit: contain; }
+    .brand span { font-size: .95rem; text-transform: uppercase; white-space: nowrap; }
+    @media (max-width: 540px) { .brand span { display: none; } .brand img { max-height: 32px; } }
 
-    .contact-grid {
-      display: grid; grid-template-columns: 1fr 1.4fr;
-      gap: 4rem; align-items: start;
+    nav.site-nav { display: flex; }
+    nav.site-nav ul { list-style: none; margin: 0; padding: 0; display: flex; gap: clamp(4px, 1.2vw, 18px); align-items: center; }
+    nav.site-nav a {
+      font-weight: 800; font-size: .74rem; letter-spacing: .05em; text-transform: uppercase;
+      padding: 7px 11px; border-radius: 999px; border: 1px solid transparent;
+      transition: background .15s, color .15s; white-space: nowrap;
     }
+    nav.site-nav a:hover, nav.site-nav a[aria-current="page"] { background: var(--accent); color: var(--cta-ink); }
+    .nav-cta { background: var(--accent) !important; color: var(--cta-ink) !important; border-color: var(--accent) !important; }
+    .nav-cta:hover { background: #33c9b8 !important; }
 
-    .contact-meta { padding-top: .5rem; }
-    .contact-meta .lede { margin-bottom: 2rem; }
+    .menu-toggle { display: none; width: 44px; height: 44px; border: none; background: none; cursor: pointer; border-radius: 10px; padding: 0; }
+    .menu-toggle .bar { display: block; width: 26px; height: 3px; margin: 5px auto; background: var(--ink); border-radius: 2px; transition: .3s; }
+    .menu-toggle.open .bar:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+    .menu-toggle.open .bar:nth-child(2) { opacity: 0; }
+    .menu-toggle.open .bar:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+    @media (max-width: 900px) { nav.site-nav { display: none; } .menu-toggle { display: block; } }
 
-    .meta-item {
-      display: flex; gap: .85rem; align-items: flex-start;
-      margin-bottom: 1.2rem;
+    .drawer {
+      position: fixed; top: 0; right: 0; height: 100dvh; width: min(80vw, 340px);
+      background: var(--panel); border-left: 1px solid var(--line);
+      transform: translateX(100%); transition: transform .24s cubic-bezier(.4,2.2,.3,1);
+      z-index: 1001; display: flex; flex-direction: column;
     }
-    .meta-icon {
-      width: 34px; height: 34px; border-radius: 9px; flex-shrink: 0;
-      background: var(--reef-dim); border: 1px solid rgba(42,180,165,.18);
-      display: grid; place-items: center;
-    }
-    .meta-icon svg { width: 15px; height: 15px; color: var(--reef); }
-    .meta-label {
-      font-size: .7rem; font-weight: 500;
-      letter-spacing: .1em; text-transform: uppercase; color: var(--muted);
-      margin-bottom: .2rem;
-    }
-    .meta-value { font-size: .9rem; color: var(--text); }
+    .drawer.open { transform: translateX(0); }
+    .drawer header { display: flex; align-items: center; justify-content: space-between; padding: 16px; border-bottom: 1px solid var(--line); }
+    .drawer nav ul { list-style: none; margin: 0; padding: 12px; display: flex; flex-direction: column; gap: 6px; }
+    .drawer nav a { padding: 12px 14px; border-radius: 10px; font-weight: 800; display: block; transition: background .15s; }
+    .drawer nav a:hover { background: var(--panel-2); color: var(--accent); }
+    .nav-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.5); opacity: 0; pointer-events: none; transition: opacity .2s; z-index: 1000; }
+    .nav-overlay.show { opacity: 1; pointer-events: auto; }
+    body.no-scroll { overflow: hidden; }
 
-    /* Form */
-    .contact-shell {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      overflow: hidden;
+    /* ── BUTTONS ── */
+    .btn {
+      background: var(--cta); color: var(--cta-ink); font-weight: 900;
+      padding: 11px 28px; border-radius: 999px; border: 2px solid transparent;
+      cursor: pointer; font-size: .88rem; font-family: inherit; letter-spacing: .05em;
+      text-transform: uppercase; display: inline-flex; align-items: center; gap: .45rem;
+      transition: transform .12s, box-shadow .12s; box-shadow: 0 6px 22px rgba(0,0,0,.35);
+      text-decoration: none;
     }
+    .btn:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(0,0,0,.45); }
+    .btn:active { transform: translateY(0); }
+    .btn-ghost { background: transparent; color: var(--ink); border-color: rgba(255,255,255,.20); box-shadow: none; }
+    .btn-ghost:hover { background: rgba(255,255,255,.06); border-color: rgba(255,255,255,.38); }
+
+    /* ── HERO ── */
+    .hero { position: relative; min-height: 100vh; display: flex; align-items: center; overflow: hidden; isolation: isolate; background: #060e14; }
+    .hero-bg { position: absolute; inset: 0; z-index: 0; background-size: cover; background-position: center; transition: opacity 1.4s ease; opacity: 0; }
+    .hero-bg.is-active { opacity: 1; }
+    .hero-overlay {
+      position: absolute; inset: 0; z-index: 1; pointer-events: none;
+      background: radial-gradient(55% 55% at 110% -5%, rgba(42,180,165,.08) 0, transparent 60%),
+        linear-gradient(155deg, rgba(6,14,20,.90) 0%, rgba(8,18,28,.55) 48%, rgba(10,20,30,.72) 100%);
+    }
+    .hero-inner {
+      position: relative; z-index: 2; width: var(--container);
+      padding: 8rem 0 7rem; display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center;
+    }
+    @media (max-width: 860px) { .hero-inner { grid-template-columns: 1fr; padding: 6.5rem 0 5.5rem; } .hero-right { display: none; } }
+    .hero-left { opacity: 0; animation: fadeUp .75s .15s ease forwards; }
+    .hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(2.6rem, 5vw, 4.2rem); line-height: 1.04; margin: 0 0 18px; color: #fff; }
+    .hero h1 em { font-style: italic; color: var(--accent); }
+    .hero-sub { font-size: 1rem; line-height: 1.78; color: rgba(255,255,255,.62); max-width: 430px; margin-bottom: 2.2rem; }
+    .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 2.5rem; }
+    .hero-proof { padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,.08); display: flex; align-items: center; gap: 1rem; }
+    .hero-stars { color: var(--accent); font-size: .95rem; letter-spacing: .06em; }
+    .hero-proof-text { font-size: .8rem; color: rgba(255,255,255,.48); line-height: 1.55; }
+    .hero-proof-text strong { color: rgba(255,255,255,.82); font-weight: 600; }
+
+    .hero-right { display: flex; flex-direction: column; gap: 12px; align-items: flex-end; opacity: 0; animation: fadeUp .75s .45s ease forwards; }
+    .h-stat { background: rgba(42,180,165,.07); backdrop-filter: blur(16px); border: 1px solid rgba(42,180,165,.18); padding: 1.2rem 1.8rem; text-align: center; min-width: 158px; border-radius: 16px; }
+    .h-stat-num { font-family: 'Playfair Display', serif; font-size: 2.1rem; font-weight: 700; color: var(--accent); line-height: 1; }
+    .h-stat-label { font-size: .63rem; font-weight: 700; letter-spacing: .15em; text-transform: uppercase; color: var(--muted); margin-top: .35rem; }
+
+    .hero-stats { position: absolute; bottom: 0; left: 0; right: 0; z-index: 3; background: rgba(6,14,20,.85); backdrop-filter: blur(8px); border-top: 1px solid rgba(255,255,255,.06); }
+    .stats-inner { display: flex; gap: 2rem; flex-wrap: wrap; padding: 1.1rem 0; align-items: center; }
+    .stat-divider { width: 1px; height: 28px; background: var(--line); flex-shrink: 0; }
+    .stat-num { font-size: 1.6rem; font-weight: 900; color: var(--accent); line-height: 1; letter-spacing: -.02em; }
+    .stat-label { font-size: .67rem; color: var(--muted); margin-top: .22rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+    @media (max-width: 640px) { .stats-inner { gap: 1rem; } .stat-divider { display: none; } }
+
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* ── MARQUEE ── */
+    .marquee-strip { background: var(--accent); padding: .6rem 0; overflow: hidden; white-space: nowrap; }
+    .marquee-inner { display: inline-flex; animation: marquee 26s linear infinite; }
+    .marquee-item { font-size: .75rem; font-weight: 900; letter-spacing: .2em; text-transform: uppercase; color: #030d0c; padding: 0 1.5rem; }
+    .marquee-sep { color: rgba(0,0,0,.25); padding: 0 .25rem; }
+    @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+    /* ── SECTIONS ── */
+    .sec { padding: 72px 0 28px; }
+
+    /* ── SERVICES ── */
+    .services-wrap { display: grid; grid-template-columns: 260px 1fr; gap: 3.5rem; align-items: start; }
+    @media (max-width: 900px) { .services-wrap { grid-template-columns: 1fr; } }
+    .services-intro p { font-size: .9rem; line-height: 1.78; color: var(--muted); margin-top: .8rem; }
+
+    .svc-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
+    @media (max-width: 960px) { .svc-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 560px) { .svc-grid { grid-template-columns: 1fr; } }
+
+    .svc-card { background: var(--panel); padding: 2rem 1.8rem; position: relative; overflow: hidden; transition: background .2s; }
+    .svc-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--accent); transform: scaleX(0); transform-origin: left; transition: transform .3s ease; }
+    .svc-card:hover { background: var(--panel-2); }
+    .svc-card:hover::before { transform: scaleX(1); }
+    .svc-num { font-family: 'Playfair Display', serif; font-size: 2.6rem; font-weight: 700; color: rgba(42,180,165,.09); line-height: 1; margin-bottom: .75rem; display: block; }
+    .svc-icon { font-size: 1.45rem; margin-bottom: .85rem; display: block; }
+    .svc-card h3 { font-weight: 900; font-size: .95rem; margin: 0 0 9px; letter-spacing: .03em; text-transform: uppercase; }
+    .svc-card p { color: var(--muted); font-size: .87rem; line-height: 1.72; margin: 0; }
+
+    /* ── GALLERY ── */
+    .gallery-loading { display: flex; align-items: center; gap: .75rem; padding: 2.5rem 0; color: var(--muted); font-size: .9rem; font-weight: 700; }
+    .spinner { width: 20px; height: 20px; border: 2px solid rgba(42,180,165,.2); border-top-color: var(--accent); border-radius: 50%; animation: spin .7s linear infinite; flex-shrink: 0; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    #gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem; margin-top: 1.2rem; }
+    .gallery-item { position: relative; border-radius: 12px; overflow: hidden; aspect-ratio: 4/3; background: var(--panel); border: 1px solid var(--line); cursor: pointer; box-shadow: 0 6px 22px rgba(0,0,0,.28); transition: transform .2s, box-shadow .2s; }
+    .gallery-item:hover { transform: translateY(-3px); box-shadow: 0 12px 34px rgba(0,0,0,.42); }
+    .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: transform .35s; }
+    .gallery-item:hover img { transform: scale(1.05); }
+    .gallery-item .overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,.5) 0%, transparent 60%); opacity: 0; transition: opacity .25s; display: flex; align-items: flex-end; padding: 1rem; }
+    .gallery-item:hover .overlay { opacity: 1; }
+    .gallery-item .overlay span { color: rgba(255,255,255,.9); font-size: .78rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+    #gallery-empty { display: none; text-align: center; padding: 4rem 0; color: var(--muted); }
+    #gallery-empty p { font-size: .9rem; margin-top: .5rem; }
+
+    #lightbox { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.92); backdrop-filter: blur(6px); z-index: 500; place-items: center; cursor: pointer; }
+    #lightbox.active { display: grid; }
+    #lightbox-img { max-width: 90vw; max-height: 88vh; border-radius: 12px; box-shadow: 0 32px 100px rgba(0,0,0,.7); pointer-events: none; }
+    #lightbox-close { position: fixed; top: 1.2rem; right: 1.4rem; z-index: 501; color: rgba(255,255,255,.7); cursor: pointer; background: rgba(0,0,0,.45); border: 1px solid rgba(255,255,255,.15); border-radius: 999px; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; transition: color .15s, background .15s; }
+    #lightbox-close:hover { color: #fff; background: rgba(0,0,0,.65); }
+
+    /* ── ABOUT ── */
+    #about { padding: 72px 0 60px; }
+    .about-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 3.5rem; align-items: start; max-width: 960px; }
+    @media (max-width: 720px) { .about-layout { grid-template-columns: 1fr; } }
+    .about-portrait { border-radius: 18px; overflow: hidden; border: 1px solid var(--line); aspect-ratio: 4/5; background: var(--panel); position: relative; }
+    .about-portrait img { width: 100%; height: 100%; object-fit: cover; object-position: center top; }
+    .about-portrait::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 35%; background: linear-gradient(to top, rgba(8,15,20,.65), transparent); }
+    .about-text p { color: var(--muted); line-height: 1.8; margin-bottom: 1rem; }
+    .about-text strong { color: var(--ink); }
+    .about-creds { display: grid; grid-template-columns: 1fr 1fr; gap: .7rem; margin: 1.4rem 0; }
+    @media (max-width: 500px) { .about-creds { grid-template-columns: 1fr; } }
+    .cred { display: flex; align-items: flex-start; gap: .55rem; }
+    .cred-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--accent); margin-top: .55rem; flex-shrink: 0; }
+    .cred-txt { font-size: .82rem; font-weight: 600; line-height: 1.5; color: var(--ink); }
+    .about-stats { display: grid; grid-template-columns: 1fr 1fr; gap: .75rem; }
+    .a-stat { background: rgba(42,180,165,.06); border: 1px solid rgba(42,180,165,.14); border-radius: 14px; padding: 1.2rem; text-align: center; }
+    .a-stat-num { font-size: 1.7rem; font-weight: 900; color: var(--accent); line-height: 1; }
+    .a-stat-lbl { font-size: .68rem; color: var(--muted); font-weight: 700; text-transform: uppercase; letter-spacing: .07em; margin-top: .28rem; }
+
+    /* ── CTA BAND ── */
+    .cta-band { background: var(--panel); margin: 60px 0 0; padding: 3.5rem 4rem; display: flex; flex-wrap: wrap; gap: 2rem; align-items: center; justify-content: space-between; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+    @media (max-width: 680px) { .cta-band { padding: 2.5rem; flex-direction: column; align-items: stretch; } }
+    .cta-band h3 { font-family: 'Playfair Display', serif; font-size: clamp(1.5rem, 3vw, 2.2rem); margin: 0; color: #fff; line-height: 1.1; }
+    .cta-band p { margin: .5rem 0 0; color: var(--muted); font-size: .88rem; }
+    .cta-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+
+    /* ── CONTACT ── */
+    #contact { padding: 72px 0 80px; }
+    .contact-shell { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; max-width: 780px; }
     .contact-head { padding: 2rem 2rem 0; }
-    .contact-head h2 { font-size: clamp(1.5rem, 2.5vw, 2rem); margin-bottom: .5rem; }
+    .contact-head h2 { font-family: 'Playfair Display', serif; font-size: clamp(1.6rem, 2.5vw, 2.2rem); margin: 0 0 .5rem; color: #fff; }
     .contact-head p { color: var(--muted); font-size: .9rem; line-height: 1.75; }
-
     form { padding: 1.6rem 2rem 2rem; }
-
     .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; margin-top: 1.2rem; }
-
-    label {
-      display: block; font-size: .72rem; font-weight: 500;
-      letter-spacing: .1em; text-transform: uppercase;
-      color: rgba(255,255,255,.6); margin-bottom: .5rem;
-    }
-    input, textarea {
-      width: 100%; background: rgba(0,0,0,.3);
-      border: 1px solid var(--border); border-radius: 10px;
-      color: var(--text); padding: .85rem 1rem;
-      font: inherit; font-size: .9rem; outline: none;
-      transition: border-color .15s, box-shadow .15s;
-    }
-    input::placeholder, textarea::placeholder { color: rgba(255,255,255,.22); }
+    @media (max-width: 640px) { .form-grid { grid-template-columns: 1fr; } .contact-head { padding: 1.6rem 1.4rem 0; } form { padding: 1.4rem 1.4rem 1.8rem; } }
+    label { display: block; font-size: .72rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: rgba(255,255,255,.55); margin-bottom: .5rem; }
+    input, textarea { width: 100%; background: rgba(0,0,0,.3); border: 1px solid var(--line); border-radius: 10px; color: var(--ink); padding: .85rem 1rem; font: inherit; font-size: .9rem; outline: none; transition: border-color .15s, box-shadow .15s; }
+    input::placeholder, textarea::placeholder { color: rgba(255,255,255,.2); }
     textarea { min-height: 140px; resize: vertical; }
-    input:focus, textarea:focus {
-      border-color: rgba(42,180,165,.5);
-      box-shadow: 0 0 0 3px rgba(42,180,165,.08);
-    }
-    .helper { color: var(--muted); font-size: .8rem; margin-top: .45rem; }
-
+    input:focus, textarea:focus { border-color: rgba(42,180,165,.5); box-shadow: 0 0 0 3px rgba(42,180,165,.1); }
+    .helper { font-size: .8rem; color: var(--muted); margin-top: .45rem; }
     .form-actions { display: flex; gap: .75rem; flex-wrap: wrap; margin-top: 1.4rem; }
-    .form-actions .btn { padding: .75rem 1.8rem; }
-
-    .status { display: none; margin-top: 1rem; font-size: .88rem; font-weight: 500; }
+    .status { display: none; margin-top: 1rem; font-size: .88rem; font-weight: 700; }
     .status.show { display: block; }
-    .status.ok  { color: var(--reef); }
+    .status.ok { color: rgba(80,220,140,.9); }
     .status.err { color: rgba(255,140,140,.9); }
 
-    @media (max-width: 900px) {
-      .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; }
-      .form-grid { grid-template-columns: 1fr; }
-      .contact-head { padding: 1.6rem 1.4rem 0; }
-      form { padding: 1.4rem 1.4rem 1.8rem; }
-    }
+    /* ── FOOTER ── */
+    .site-footer { background: #040a0e; color: var(--muted); padding: 48px 0 36px; border-top: 1px solid var(--line); margin-top: 80px; font-size: .88rem; }
+    .footer-top { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 2rem; padding-bottom: 2rem; margin-bottom: 2rem; border-bottom: 1px solid var(--line); }
+    .footer-brand { font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 700; color: var(--ink); margin-bottom: .4rem; }
+    .footer-brand span { color: var(--accent); }
+    .footer-tagline { font-size: .7rem; color: var(--muted); letter-spacing: .1em; text-transform: uppercase; }
+    .footer-links { display: flex; flex-direction: column; gap: .4rem; text-align: right; }
+    .footer-links a { color: var(--muted); transition: color .15s; }
+    .footer-links a:hover { color: var(--accent); }
+    .footer-bottom { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+    .footer-copy { font-size: .76rem; color: rgba(255,255,255,.2); }
 
-    /* ─── FOOTER ─── */
-    footer {
-      background: var(--ink);
-      border-top: 1px solid var(--border);
-      padding: 2rem 0;
-    }
-    .footer-inner {
-      display: flex; justify-content: space-between;
-      align-items: center; gap: 1rem; flex-wrap: wrap;
-    }
-    .footer-brand {
-      font-family: var(--serif); font-size: .95rem;
-      font-weight: 400; color: var(--muted); letter-spacing: .04em;
-    }
-    .footer-links { display: flex; gap: 1.8rem; flex-wrap: wrap; }
-    .footer-links a {
-      font-size: .75rem; font-weight: 500;
-      letter-spacing: .08em; text-transform: uppercase;
-      color: var(--muted); transition: color .15s;
-    }
-    .footer-links a:hover { color: var(--reef); }
-    .footer-copy { font-size: .78rem; color: rgba(255,255,255,.25); }
+    /* ── SCROLL REVEAL ── */
+    .reveal { opacity: 0; transform: translateY(22px); transition: opacity .6s ease, transform .6s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-d1 { transition-delay: .1s; }
+    .reveal-d2 { transition-delay: .2s; }
 
-    /* ─── REDUCED MOTION ─── */
     @media (prefers-reduced-motion: reduce) {
-      .header, .card, .gallery-item img, .btn { transition: none; }
+      *, .hero-left, .hero-right { transition: none !important; animation: none !important; opacity: 1 !important; }
       html { scroll-behavior: auto; }
-      .kicker i, .spinner { animation: none; }
     }
   </style>
 </head>
 
 <body>
+  <div class="nav-overlay" id="navOverlay" hidden></div>
 
-  <!-- ─── HEADER ─── -->
-  <header class="header" id="top">
-    <div class="container header-inner">
-
-      <a class="brand" href="#top" aria-label="Aqua Design Collective home">
-        <div class="brand-mark" aria-hidden="true">
-          <img src="assets/ADC Logo.png" alt="" onerror="this.style.display='none'">
-        </div>
-        <div>
-          <div class="brand-name">Aqua Design Collective</div>
-          <div class="brand-tag">Aquascape Design · Rentals · Care</div>
-        </div>
+  <!-- ── HEADER ── -->
+  <header class="site-header" id="siteHeader">
+    <div class="inner">
+      <a href="#top" class="brand" aria-label="Aqua Design Collective home">
+        <img src="assets/ADC Logo.png" alt="Aqua Design Collective logo" />
+        <span>Aqua Design Collective</span>
       </a>
-
-      <nav class="nav" aria-label="Primary">
-        <a href="#services">Services</a>
-        <a href="#gallery">Gallery</a>
-        <a href="about.html">About</a>
-        <a href="#contact">Contact</a>
+      <nav class="site-nav" aria-label="Main">
+        <ul>
+          <li><a href="#top" aria-current="page">Home</a></li>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#gallery">Gallery</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#contact" class="nav-cta">Get a Quote</a></li>
+        </ul>
       </nav>
-
-      <div class="header-right">
-        <a class="btn btn-cta" href="#contact">Get a Quote</a>
-      </div>
-
-      <button class="toggle" id="navToggle" type="button"
-        aria-label="Open menu" aria-expanded="false" aria-controls="mobileDrawer">
-        <span></span><span></span><span></span>
+      <button id="menuToggle" class="menu-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobileDrawer">
+        <span class="bar"></span><span class="bar"></span><span class="bar"></span>
       </button>
     </div>
   </header>
 
-  <div class="drawer" id="mobileDrawer" role="region" aria-label="Mobile menu">
-    <div class="container drawer-inner">
-      <a href="#services">Services</a>
-      <a href="#gallery">Gallery</a>
-      <a href="about.html">About</a>
-      <a href="#contact">Contact</a>
-      <div class="drawer-actions">
-        <a class="btn btn-ghost" href="about.html">About</a>
-        <a class="btn btn-cta" href="#contact">Get a Quote</a>
-      </div>
-    </div>
-  </div>
+  <aside id="mobileDrawer" class="drawer" aria-hidden="true" role="dialog" aria-modal="true">
+    <header>
+      <strong>Menu</strong>
+      <button id="closeDrawer" class="menu-toggle" aria-label="Close menu">
+        <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+      </button>
+    </header>
+    <nav aria-label="Mobile">
+      <ul>
+        <li><a href="#top">Home</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#gallery">Gallery</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact">Get a Quote</a></li>
+      </ul>
+    </nav>
+  </aside>
 
-  <!-- ─── HERO ─── -->
-  <div class="bg-hero">
-    <main>
-      <section class="hero">
-        <div class="container">
-          <div class="kicker">
-            <i aria-hidden="true"></i>
-            Available for new projects
+  <main id="main">
+
+    <!-- ── HERO ── -->
+    <section class="hero" id="top" aria-label="Hero">
+      <div class="hero-bg" id="heroBgA" aria-hidden="true"></div>
+      <div class="hero-bg" id="heroBgB" aria-hidden="true"></div>
+      <div class="hero-overlay" aria-hidden="true"></div>
+      <div class="container">
+        <div class="hero-inner">
+          <div class="hero-left">
+            <div class="eyebrow">Pittsburgh Aquascape Design &amp; Care</div>
+            <h1>Modern aquascapes<br>that match your <em>aesthetic.</em></h1>
+            <p class="hero-sub">Premium planted aquariums for offices, hospitality, and homes — clean lines, calm movement, and maintenance that keeps everything looking intentional.</p>
+            <div class="hero-actions">
+              <a href="#gallery" class="btn">See Our Work</a>
+              <a href="#contact" class="btn btn-ghost">Get a Quote</a>
+            </div>
+            <div class="hero-proof">
+              <div class="hero-stars">&#9679; Available for new projects</div>
+              <div class="hero-proof-text">
+                <strong>48-hour quote turnaround</strong><br>
+                Custom builds &amp; full maintenance included
+              </div>
+            </div>
           </div>
-          <h1>Modern aquascapes that match your <em>aesthetic.</em></h1>
-          <p>Premium planted aquariums for offices, hospitality, and homes — clean lines, calm movement, and maintenance that keeps everything looking intentional.</p>
-          <div class="hero-actions">
-            <a class="btn btn-cta" href="#contact">Get a Quote</a>
-            <a class="btn btn-ghost-light" href="#services">View Services</a>
+          <div class="hero-right" aria-hidden="true">
+            <div class="h-stat"><div class="h-stat-num">100%</div><div class="h-stat-label">Custom Builds</div></div>
+            <div class="h-stat"><div class="h-stat-num">48hr</div><div class="h-stat-label">Quote Turnaround</div></div>
+            <div class="h-stat"><div class="h-stat-num">Full</div><div class="h-stat-label">Maintenance Incl.</div></div>
           </div>
         </div>
-      </section>
-
-      <div class="stats-strip">
+      </div>
+      <div class="hero-stats">
         <div class="container">
           <div class="stats-inner">
-            <div class="stat">
-              <div class="stat-num">100%</div>
-              <div class="stat-label">Custom builds</div>
+            <div class="stat"><div class="stat-num">100%</div><div class="stat-label">Custom</div></div>
+            <div class="stat-divider"></div>
+            <div class="stat"><div class="stat-num">48hr</div><div class="stat-label">Quote</div></div>
+            <div class="stat-divider"></div>
+            <div class="stat"><div class="stat-num">Full</div><div class="stat-label">Maintenance</div></div>
+            <div class="stat-divider"></div>
+            <div class="stat"><div class="stat-num">PGH</div><div class="stat-label">Based</div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── MARQUEE ── -->
+    <div class="marquee-strip" aria-hidden="true">
+      <div class="marquee-inner">
+        <span class="marquee-item">Aquascape Rentals</span><span class="marquee-sep">·</span>
+        <span class="marquee-item">Custom Design</span><span class="marquee-sep">·</span>
+        <span class="marquee-item">Planted Tanks</span><span class="marquee-sep">·</span>
+        <span class="marquee-item">Ongoing Maintenance</span><span class="marquee-sep">·</span>
+        <span class="marquee-item">Offices &amp; Hospitality</span><span class="marquee-sep">·</span>
+        <span class="marquee-item">Pittsburgh, PA</span><span class="marquee-sep">·</span>
+        <span class="marquee-item">Aquascape Rentals</span><span class="marquee-sep">·</span>
+        <span class="marquee-item">Custom Design</span><span class="marquee-sep">·</span>
+        <span class="marquee-item">Planted Tanks</span><span class="marquee-sep">·</span>
+        <span class="marquee-item">Ongoing Maintenance</span><span class="marquee-sep">·</span>
+        <span class="marquee-item">Offices &amp; Hospitality</span><span class="marquee-sep">·</span>
+        <span class="marquee-item">Pittsburgh, PA</span><span class="marquee-sep">·</span>
+      </div>
+    </div>
+
+    <!-- ── SERVICES ── -->
+    <section id="services" class="sec reveal" aria-labelledby="svc-h">
+      <div class="container">
+        <div class="services-wrap">
+          <div class="services-intro">
+            <div class="eyebrow">What We Offer</div>
+            <h2 id="svc-h" style="font-family:'Playfair Display',serif;font-size:clamp(1.9rem,4vw,2.6rem);margin:0;color:#fff;line-height:1.08">Premium<br>Offerings.</h2>
+            <p>Simple, premium services built around your space and maintained to stay beautiful.</p>
+          </div>
+          <div class="svc-grid">
+            <div class="svc-card reveal reveal-d1">
+              <span class="svc-num">01</span>
+              <span class="svc-icon">🪨</span>
+              <h3>Aquascape Rentals</h3>
+              <p>Ready-to-place planted tanks for lobbies, offices, and residences — delivered, placed, and tuned for the room.</p>
             </div>
-            <div class="stat">
-              <div class="stat-num">48hr</div>
-              <div class="stat-label">Quote turnaround</div>
+            <div class="svc-card reveal reveal-d2">
+              <span class="svc-num">02</span>
+              <span class="svc-icon">🎨</span>
+              <h3>Custom Design &amp; Install</h3>
+              <p>From concept to final styling: tank selection, hardscape, planting, lighting, filtration, and placement.</p>
             </div>
-            <div class="stat">
-              <div class="stat-num">Full</div>
-              <div class="stat-label">Maintenance included</div>
+            <div class="svc-card reveal reveal-d1">
+              <span class="svc-num">03</span>
+              <span class="svc-icon">🌿</span>
+              <h3>Maintenance</h3>
+              <p>Consistent care that protects the look: water quality, trimming, algae control, and system optimization.</p>
             </div>
           </div>
         </div>
       </div>
-    </main>
-  </div>
+    </section>
 
-  <!-- ─── SERVICES ─── -->
-  <section class="section" id="services">
+    <!-- ── GALLERY ── -->
+    <section id="gallery" class="sec" aria-labelledby="gallery-h" style="padding-bottom:72px">
+      <div class="container">
+        <div class="eyebrow">Our Work</div>
+        <h2 id="gallery-h" style="font-family:'Playfair Display',serif;font-size:clamp(1.9rem,4vw,2.6rem);margin:0 0 8px;color:#fff;line-height:1.08">Gallery</h2>
+        <p style="color:var(--muted);margin:0;line-height:1.7">A look at our builds — from planted office installations to custom residential tanks.</p>
+        <div id="gallery-loading" class="gallery-loading" aria-live="polite">
+          <div class="spinner" role="status" aria-label="Loading photos"></div>
+          Loading photos…
+        </div>
+        <div id="gallery-grid" aria-label="Photo gallery"></div>
+        <div id="gallery-empty">
+          <div style="font-size:2rem">🌊</div>
+          <p>Photos coming soon.</p>
+        </div>
+      </div>
+    </section>
+
+    <div id="lightbox" role="dialog" aria-modal="true" aria-label="Photo viewer">
+      <button id="lightbox-close" aria-label="Close photo viewer">✕</button>
+      <img id="lightbox-img" src="" alt="Aqua Design Collective build" />
+    </div>
+
+    <!-- ── ABOUT ── -->
+    <section id="about" style="padding:72px 0 60px" class="reveal" aria-labelledby="about-h">
+      <div class="container">
+        <div class="eyebrow">About</div>
+        <h2 id="about-h" style="font-family:'Playfair Display',serif;font-size:clamp(1.9rem,4vw,2.6rem);margin:0 0 2rem;color:#fff;line-height:1.08">Built by someone who<br>understands systems.</h2>
+        <div class="about-layout">
+          <div>
+            <div class="about-portrait">
+              <img src="assets/MichaelHeadshot.jpg" alt="Michael Coutinho, founder of Aqua Design Collective" />
+            </div>
+          </div>
+          <div>
+            <div class="about-text">
+              <p>Aqua Design Collective was founded by <strong>Michael Coutinho</strong>, who brings nearly a decade of experience working at the intersection of innovation and complex systems — now applied to the living art of aquascaping.</p>
+              <p>Each tank is a living system with its own chemistry, biology, and aesthetic logic. Getting it right requires patience, an eye for detail, and genuine care for how all the parts interact. Michael works directly with every client — from the first conversation through ongoing maintenance.</p>
+              <p>Based in Pittsburgh, he serves offices, hospitality spaces, and homes across the region.</p>
+              <div class="about-creds">
+                <div class="cred"><div class="cred-dot"></div><div class="cred-txt">100% Custom Builds</div></div>
+                <div class="cred"><div class="cred-dot"></div><div class="cred-txt">48hr Quote Turnaround</div></div>
+                <div class="cred"><div class="cred-dot"></div><div class="cred-txt">Full Maintenance Included</div></div>
+                <div class="cred"><div class="cred-dot"></div><div class="cred-txt">Pittsburgh Based</div></div>
+              </div>
+            </div>
+            <div class="about-stats">
+              <div class="a-stat"><div class="a-stat-num">100%</div><div class="a-stat-lbl">Custom</div></div>
+              <div class="a-stat"><div class="a-stat-num">48hr</div><div class="a-stat-lbl">Quote</div></div>
+              <div class="a-stat"><div class="a-stat-num">Full</div><div class="a-stat-lbl">Maintenance</div></div>
+              <div class="a-stat"><div class="a-stat-num">PGH</div><div class="a-stat-lbl">Based</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── CTA BAND ── -->
     <div class="container">
-      <div class="section-tag">What We Offer</div>
-      <h2>Services</h2>
-      <p class="lede">Simple, premium offerings — built around your space and maintained to stay beautiful.</p>
-      <div class="cards-wrap">
-        <div class="cards">
-          <div class="card">
-            <div class="card-icon">🪨</div>
-            <h3>Aquascape Rentals</h3>
-            <p>Ready-to-place planted tanks for lobbies, offices, and residences — delivered, placed, and tuned for the room.</p>
-            <div class="reef-line"></div>
-          </div>
-          <div class="card">
-            <div class="card-icon">🎨</div>
-            <h3>Custom Design & Install</h3>
-            <p>From concept to final styling: tank selection, hardscape, planting, lighting, filtration, and placement.</p>
-            <div class="reef-line"></div>
-          </div>
-          <div class="card">
-            <div class="card-icon">🌿</div>
-            <h3>Maintenance</h3>
-            <p>Consistent care that protects the look: water quality, trimming, algae control, and system optimization.</p>
-            <div class="reef-line"></div>
-          </div>
+      <div class="cta-band reveal">
+        <div>
+          <div class="eyebrow">Ready?</div>
+          <h3>Let's build something <em style="font-style:italic;color:var(--accent)">worth looking at.</em></h3>
+          <p>Free consultations · 48-hour response · Pittsburgh &amp; surrounding areas</p>
+        </div>
+        <div class="cta-actions">
+          <a href="#contact" class="btn">Get a Free Quote</a>
         </div>
       </div>
     </div>
-  </section>
 
-  <!-- ─── GALLERY ─── -->
-  <section class="section" id="gallery">
-    <div class="container">
-      <div class="section-tag">Our Work</div>
-      <h2>Gallery</h2>
-      <p class="lede">A look at our builds — from planted office installations to custom residential tanks.</p>
-
-      <div id="gallery-loading" aria-live="polite">
-        <div class="spinner" role="status" aria-label="Loading photos"></div>
-        Loading photos…
-      </div>
-      <div id="gallery-grid" aria-label="Photo gallery"></div>
-      <div id="gallery-empty">
-        <svg width="36" height="36" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
-          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-        </svg>
-        <p>Photos coming soon.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- ─── LIGHTBOX ─── -->
-  <div id="lightbox" role="dialog" aria-modal="true" aria-label="Photo viewer">
-    <button id="lightbox-close" aria-label="Close photo viewer">✕</button>
-    <img id="lightbox-img" src="" alt="Aqua Design Collective build" />
-  </div>
-
-  <!-- ─── CONTACT ─── -->
-  <section class="section" id="contact">
-    <div class="container">
-      <div class="contact-grid">
-
-        <!-- Left: info -->
-        <div class="contact-meta">
-          <div class="section-tag">Get in Touch</div>
-          <h2>Let's talk about your space.</h2>
-          <p class="lede">Leave your contact email and a short note about your space. We'll respond within 48 hours.</p>
-
-          <div class="meta-item">
-            <div class="meta-icon">
-              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-                <polyline points="22,6 12,13 2,6"/>
-              </svg>
-            </div>
-            <div>
-              <div class="meta-label">Response Time</div>
-              <div class="meta-value">Within 48 hours</div>
-            </div>
-          </div>
-
-          <div class="meta-item">
-            <div class="meta-icon">
-              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
-                <circle cx="12" cy="10" r="3"/>
-              </svg>
-            </div>
-            <div>
-              <div class="meta-label">Serving</div>
-              <div class="meta-value">Offices, hospitality & homes</div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Right: form -->
+    <!-- ── CONTACT ── -->
+    <section id="contact" style="padding:72px 0 80px" aria-labelledby="contact-h">
+      <div class="container">
+        <div class="eyebrow">Contact</div>
+        <h2 id="contact-h" style="font-family:'Playfair Display',serif;font-size:clamp(1.9rem,4vw,2.6rem);margin:0 0 10px;color:#fff;line-height:1.08">Get in Touch</h2>
+        <p style="color:var(--muted);margin:0 0 2rem;line-height:1.7">Leave your contact email and a short note about your space. We'll respond within 48 hours.</p>
         <div class="contact-shell">
           <div class="contact-head">
-            <h2>Get in Touch</h2>
-            <p>Leave your contact email and a short note about your space. We'll respond within 48 hours.</p>
+            <h2>Request a Quote</h2>
+            <p>Tell us about your space and we'll follow up within 48 hours.</p>
           </div>
           <form id="inquiryForm" action="https://formspree.io/f/mbdkrzrj" method="POST" novalidate>
             <input type="hidden" name="_subject" value="New Aqua Design Collective Inquiry" />
@@ -737,180 +499,183 @@
             <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off" />
             <div class="form-grid">
               <div>
-                <label for="email">Contact Email</label>
+                <label for="email">Contact Email *</label>
                 <input id="email" name="email" type="email" placeholder="you@email.com" required autocomplete="email" />
                 <div class="helper">We'll only use this to respond to your request.</div>
               </div>
               <div>
-                <label for="note">Short Note</label>
+                <label for="note">Short Note *</label>
                 <textarea id="note" name="message" placeholder="Office lobby, hotel reception, home — tell us about your space." required></textarea>
               </div>
             </div>
             <div class="form-actions">
-              <button class="btn btn-cta" type="submit">Send Inquiry</button>
+              <button class="btn" type="submit" id="submitBtn">Send Inquiry</button>
             </div>
             <div class="status" id="form-status" aria-live="polite" role="status"></div>
           </form>
         </div>
-
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- ─── FOOTER ─── -->
-  <footer>
-    <div class="container footer-inner">
-      <div class="footer-brand">Aqua Design Collective</div>
-      <nav class="footer-links" aria-label="Footer">
-        <a href="#services">Services</a>
-        <a href="#gallery">Gallery</a>
-        <a href="about.html">About</a>
-        <a href="#contact">Contact</a>
-        <a href="#top">Back to top ↑</a>
-      </nav>
-      <div class="footer-copy">© <span id="year"></span> Aqua Design Collective</div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-top">
+        <div>
+          <div class="footer-brand">Aqua Design <span>Collective</span></div>
+          <div class="footer-tagline">Aquascape Design · Rentals · Care</div>
+        </div>
+        <nav class="footer-links" aria-label="Footer">
+          <a href="#services">Services</a>
+          <a href="#gallery">Gallery</a>
+          <a href="#about">About</a>
+          <a href="#contact">Contact</a>
+          <a href="#top">Back to top ↑</a>
+        </nav>
+      </div>
+      <div class="footer-bottom">
+        <p class="footer-copy">&copy; <span id="year"></span> Aqua Design Collective. All rights reserved.</p>
+        <p class="footer-copy">Michael Coutinho · Founder</p>
+      </div>
     </div>
   </footer>
 
-  <!-- ─── SCRIPTS ─── -->
   <script>
-    document.getElementById("year").textContent = new Date().getFullYear();
+    document.getElementById('year').textContent = new Date().getFullYear();
 
-    // ── Mobile nav ──
-    const header  = document.querySelector(".header");
-    const toggle  = document.getElementById("navToggle");
-    const drawer  = document.getElementById("mobileDrawer");
+    /* Header scroll */
+    (function(){
+      var h = document.getElementById('siteHeader');
+      window.addEventListener('scroll', function(){ h.classList.toggle('scrolled', window.scrollY > 60); }, { passive: true });
+    })();
 
-    function setOpen(open) {
-      header.classList.toggle("is-open", open);
-      toggle.setAttribute("aria-expanded", String(open));
-      toggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
-      document.body.style.overflow = open ? "hidden" : "";
-    }
-    toggle.addEventListener("click", () => setOpen(!header.classList.contains("is-open")));
-    drawer.querySelectorAll("a").forEach(a => a.addEventListener("click", () => setOpen(false)));
-    window.addEventListener("keydown", e => { if (e.key === "Escape") setOpen(false); });
-    window.addEventListener("resize",  () => { if (window.innerWidth > 820) setOpen(false); });
-
-    // ── Header hide on scroll ──
-    let scrollTimer = null, lastY = window.scrollY;
-    window.addEventListener("scroll", () => {
-      if (header.classList.contains("is-open")) return;
-      const y = window.scrollY;
-      if (Math.abs(y - lastY) > 2) header.classList.add("is-hidden");
-      lastY = y;
-      clearTimeout(scrollTimer);
-      scrollTimer = setTimeout(() => header.classList.remove("is-hidden"), 180);
-    }, { passive: true });
-
-    // ── Lightbox ──
-    const lightbox    = document.getElementById("lightbox");
-    const lightboxImg = document.getElementById("lightbox-img");
-
-    window.openLightbox = function(src, alt) {
-      lightboxImg.src = src;
-      lightboxImg.alt = alt || "Aqua Design Collective";
-      lightbox.classList.add("active");
-      document.body.style.overflow = "hidden";
-    };
-    function closeLightbox() {
-      lightbox.classList.remove("active");
-      document.body.style.overflow = "";
-      lightboxImg.src = "";
-    }
-    document.getElementById("lightbox-close").addEventListener("click", closeLightbox);
-    lightbox.addEventListener("click", e => { if (e.target === lightbox) closeLightbox(); });
-    window.addEventListener("keydown", e => {
-      if (e.key === "Escape" && lightbox.classList.contains("active")) closeLightbox();
-    });
-
-    // ── Contact form ──
-    const form     = document.getElementById("inquiryForm");
-    const statusEl = document.getElementById("form-status");
-
-    function setStatus(msg, type) {
-      statusEl.textContent = msg;
-      statusEl.className   = "status show" + (type ? " " + type : "");
-    }
-    form.addEventListener("submit", async e => {
-      e.preventDefault();
-      if (!form.checkValidity()) {
-        setStatus("Please add a valid email and a short note.", "err");
-        form.reportValidity();
-        return;
+    /* Mobile drawer */
+    (function(){
+      var toggle   = document.getElementById('menuToggle');
+      var drawer   = document.getElementById('mobileDrawer');
+      var closeBtn = document.getElementById('closeDrawer');
+      var overlay  = document.getElementById('navOverlay');
+      var lastFocus = null;
+      function open(){
+        lastFocus = document.activeElement;
+        drawer.classList.add('open'); drawer.setAttribute('aria-hidden','false');
+        overlay.classList.add('show'); overlay.hidden = false;
+        toggle.classList.add('open'); toggle.setAttribute('aria-expanded','true');
+        document.body.classList.add('no-scroll');
+        document.addEventListener('keydown', onKey);
       }
-      setStatus("Sending…");
-      try {
-        const res = await fetch(form.action, {
-          method: "POST",
-          headers: { "Accept": "application/json" },
-          body: new FormData(form)
+      function close(){
+        drawer.classList.remove('open'); drawer.setAttribute('aria-hidden','true');
+        overlay.classList.remove('show'); overlay.hidden = true;
+        toggle.classList.remove('open'); toggle.setAttribute('aria-expanded','false');
+        document.body.classList.remove('no-scroll');
+        document.removeEventListener('keydown', onKey);
+        if (lastFocus) lastFocus.focus();
+      }
+      function onKey(e){ if (e.key === 'Escape') close(); }
+      toggle.addEventListener('click', function(){ drawer.classList.contains('open') ? close() : open(); });
+      closeBtn.addEventListener('click', close);
+      overlay.addEventListener('click', close);
+      drawer.querySelectorAll('a').forEach(function(a){ a.addEventListener('click', close); });
+      window.addEventListener('resize', function(){ if (window.innerWidth > 900) close(); });
+    })();
+
+    /* Scroll spy */
+    (function(){
+      var sections = ['top','services','gallery','about','contact'];
+      var links = document.querySelectorAll('nav.site-nav a');
+      function update(){
+        var y = window.scrollY + 120;
+        var active = 'top';
+        sections.forEach(function(id){ var el = document.getElementById(id); if (el && el.offsetTop <= y) active = id; });
+        links.forEach(function(a){
+          var href = a.getAttribute('href').replace('#','');
+          if (href === active) a.setAttribute('aria-current','page'); else a.removeAttribute('aria-current');
         });
-        if (res.ok) {
-          setStatus("Sent! We'll get back to you within 48 hours.", "ok");
-          form.reset();
-        } else {
-          setStatus("Something went wrong. Please try again.", "err");
-        }
-      } catch {
-        setStatus("Network error. Please check your connection.", "err");
       }
-    });
+      window.addEventListener('scroll', update, { passive: true });
+      update();
+    })();
+
+    /* Scroll reveal */
+    (function(){
+      var els = document.querySelectorAll('.reveal');
+      var obs = new IntersectionObserver(function(entries){
+        entries.forEach(function(e){ if (e.isIntersecting){ e.target.classList.add('visible'); obs.unobserve(e.target); } });
+      }, { threshold: 0.08 });
+      els.forEach(function(el){ obs.observe(el); });
+    })();
+
+    /* Lightbox */
+    var lightbox    = document.getElementById('lightbox');
+    var lightboxImg = document.getElementById('lightbox-img');
+    window.openLightbox = function(src, alt){
+      lightboxImg.src = src; lightboxImg.alt = alt || 'Aqua Design Collective';
+      lightbox.classList.add('active'); document.body.style.overflow = 'hidden';
+    };
+    function closeLightbox(){
+      lightbox.classList.remove('active'); document.body.style.overflow = ''; lightboxImg.src = '';
+    }
+    document.getElementById('lightbox-close').addEventListener('click', closeLightbox);
+    lightbox.addEventListener('click', function(e){ if (e.target === lightbox) closeLightbox(); });
+    window.addEventListener('keydown', function(e){ if (e.key === 'Escape' && lightbox.classList.contains('active')) closeLightbox(); });
+
+    /* Contact form */
+    (function(){
+      var form   = document.getElementById('inquiryForm');
+      var status = document.getElementById('form-status');
+      var btn    = document.getElementById('submitBtn');
+      if (!form) return;
+      form.addEventListener('submit', async function(e){
+        e.preventDefault();
+        if (!form.checkValidity()){ form.reportValidity(); return; }
+        btn.textContent = 'Sending\u2026'; btn.disabled = true;
+        try {
+          var res = await fetch(form.action, { method: 'POST', headers: { 'Accept': 'application/json' }, body: new FormData(form) });
+          if (res.ok){ status.textContent = '\u2713 Sent! We\'ll get back to you within 48 hours.'; status.className = 'status show ok'; form.reset(); }
+          else { status.textContent = 'Something went wrong. Please try again.'; status.className = 'status show err'; }
+        } catch { status.textContent = 'Network error. Please check your connection.'; status.className = 'status show err'; }
+        btn.textContent = 'Send Inquiry'; btn.disabled = false;
+      });
+    })();
   </script>
 
-  <!-- ─── GALLERY SCRIPT (unchanged) ─── -->
+  <!-- ── GALLERY (Supabase — unchanged) ── -->
   <script type="module">
     import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
-
     const SUPABASE_URL      = 'https://akeifjqujqjfbcutawij.supabase.co';
     const SUPABASE_ANON_KEY = 'sb_publishable__0RE4Dc9aqKVIjGmCZFmJg_WK0RKH8f';
     const BUCKET            = 'gallery';
-
     const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     const grid     = document.getElementById('gallery-grid');
     const loading  = document.getElementById('gallery-loading');
     const empty    = document.getElementById('gallery-empty');
-
     try {
-      const { data, error } = await supabase.storage.from(BUCKET).list('', {
-        limit: 100,
-        sortBy: { column: 'created_at', order: 'desc' }
-      });
-
+      const { data, error } = await supabase.storage.from(BUCKET).list('', { limit: 100, sortBy: { column: 'created_at', order: 'desc' } });
       loading.style.display = 'none';
       if (error) throw error;
-
       const photos = (data || []).filter(f => f.name !== '.emptyFolderPlaceholder');
-
       if (photos.length === 0) {
         empty.style.display = 'block';
       } else {
         photos.forEach((file, i) => {
           const { data: { publicUrl } } = supabase.storage.from(BUCKET).getPublicUrl(file.name);
-
           const item = document.createElement('div');
           item.className = 'gallery-item';
           item.setAttribute('role', 'button');
           item.setAttribute('tabindex', '0');
           item.setAttribute('aria-label', `View photo ${i + 1}`);
-
-          item.innerHTML = `
-            <img src="${publicUrl}" alt="Aqua Design Collective build ${i + 1}" loading="lazy" />
-            <div class="overlay"><span>View full size</span></div>
-          `;
-
+          item.innerHTML = `<img src="${publicUrl}" alt="Aqua Design Collective build ${i + 1}" loading="lazy" /><div class="overlay"><span>View full size</span></div>`;
           const open = () => window.openLightbox(publicUrl, `Aqua Design Collective build ${i + 1}`);
           item.addEventListener('click', open);
-          item.addEventListener('keydown', e => {
-            if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); }
-          });
-
+          item.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); } });
           grid.appendChild(item);
         });
       }
     } catch (err) {
       loading.style.display = 'none';
-      empty.style.display   = 'block';
+      empty.style.display = 'block';
       console.error('Gallery error:', err);
     }
   </script>
