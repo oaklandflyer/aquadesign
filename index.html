@@ -113,8 +113,9 @@
 
     /* ── HERO ── */
     .hero { position: relative; min-height: 100vh; display: flex; align-items: center; overflow: hidden; isolation: isolate; background: #060e14; }
-    .hero-bg { position: absolute; inset: 0; z-index: 0; background-size: cover; background-position: center; transition: opacity 1.4s ease; opacity: 0; }
+    .hero-bg { position: absolute; inset: 0; z-index: 0; background-size: cover; background-position: center; background-image: url('assets/aquascape-bg.jpg'); transition: opacity 1.4s ease; opacity: 0; }
     .hero-bg.is-active { opacity: 1; }
+    #heroBgA { opacity: 1; }
     .hero-overlay {
       position: absolute; inset: 0; z-index: 1; pointer-events: none;
       background: radial-gradient(55% 55% at 110% -5%, rgba(42,180,165,.08) 0, transparent 60%),
@@ -149,13 +150,13 @@
 
     @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-    /* ── MARQUEE ── */
+    /* ── MARQUEE 
     .marquee-strip { background: var(--accent); padding: .6rem 0; overflow: hidden; white-space: nowrap; }
     .marquee-inner { display: inline-flex; animation: marquee 26s linear infinite; }
     .marquee-item { font-size: .75rem; font-weight: 900; letter-spacing: .2em; text-transform: uppercase; color: #030d0c; padding: 0 1.5rem; }
     .marquee-sep { color: rgba(0,0,0,.25); padding: 0 .25rem; }
     @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-
+── */
     /* ── SECTIONS ── */
     .sec { padding: 72px 0 28px; }
 
@@ -360,7 +361,7 @@
       </div>
     </section>
 
-    <!-- ── MARQUEE ── -->
+    <!-- ── MARQUEE 
     <div class="marquee-strip" aria-hidden="true">
       <div class="marquee-inner">
         <span class="marquee-item">Aquascape Rentals</span><span class="marquee-sep">·</span>
@@ -377,7 +378,7 @@
         <span class="marquee-item">Pittsburgh, PA</span><span class="marquee-sep">·</span>
       </div>
     </div>
-
+── -->
     <!-- ── SERVICES ── -->
     <section id="services" class="sec reveal" aria-labelledby="svc-h">
       <div class="container">
