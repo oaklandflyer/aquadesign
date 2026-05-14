@@ -83,20 +83,22 @@
       display: flex; align-items: center; gap: 12px;
       flex-shrink: 0;
     }
-    .brand-logo {
-      height: 44px; width: auto; object-fit: contain;
-      filter: brightness(0) invert(1);
-      transition: height .3s;
+    .brand-monogram {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.25rem; font-weight: 700; letter-spacing: .1em;
+      color: var(--teal); line-height: 1;
+      border: 1px solid var(--line-teal);
+      padding: .32rem .7rem; border-radius: 2px;
+      flex-shrink: 0;
     }
-    .site-header.scrolled .brand-logo { height: 36px; }
     .brand-name {
       font-family: 'Cormorant Garamond', serif;
       font-size: 1.05rem; font-weight: 600; letter-spacing: .12em;
       text-transform: uppercase; white-space: nowrap;
-      line-height: 1;
+      line-height: 1; color: var(--ink);
     }
-    .brand-name span { display: block; font-size: .55rem; font-weight: 400; letter-spacing: .22em; color: var(--teal); margin-top: .25rem; font-family: 'Jost', sans-serif; }
-    @media (max-width: 600px) { .brand-name { display: none; } .brand-logo { height: 36px; } }
+    .brand-name span { display: block; font-size: .55rem; font-weight: 400; letter-spacing: .22em; color: var(--teal); margin-top: .28rem; font-family: 'Jost', sans-serif; }
+    @media (max-width: 600px) { .brand-name { display: none; } }
 
     nav.site-nav ul {
       list-style: none; margin: 0; padding: 0;
@@ -542,7 +544,7 @@
   <header class="site-header" id="siteHeader">
     <div class="inner">
       <a href="#top" class="brand" aria-label="Aqua Design Collective home">
-        <img src="assets/ADC Logo.png" class="brand-logo" alt="ADC" />
+        <div class="brand-monogram">ADC</div>
         <div class="brand-name">
           Aqua Design Collective
           <span>Pittsburgh · Est. 2026</span>
@@ -566,7 +568,7 @@
   <!-- Mobile drawer -->
   <aside id="mobileDrawer" class="drawer" aria-hidden="true" role="dialog" aria-modal="true">
     <div class="drawer-head">
-      <img src="assets/ADC Logo.png" style="height:30px;filter:brightness(0) invert(1)" alt="ADC" />
+      <div class="brand-monogram" style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:700;color:#2ab4a5;border:1px solid rgba(42,180,165,.18);padding:.28rem .6rem;border-radius:2px;letter-spacing:.1em">ADC</div>
       <button id="closeDrawer" class="menu-toggle" aria-label="Close menu">
         <span class="b"></span><span class="b"></span><span class="b"></span>
       </button>
@@ -586,11 +588,11 @@
 
     <!-- ── HERO ── -->
     <section class="hero" id="top" aria-label="Hero">
+      <!-- Fallback solid background — must be first so photo layers paint over it -->
+      <div style="position:absolute;inset:0;z-index:0;background:linear-gradient(140deg,#071218 0%,#0d2030 60%,#071218 100%);" aria-hidden="true"></div>
       <!-- Photo layers filled by JS -->
       <div class="hero-bg" id="bgA" aria-hidden="true"></div>
       <div class="hero-bg" id="bgB" aria-hidden="true"></div>
-      <!-- Fallback solid background while photos load -->
-      <div style="position:absolute;inset:0;z-index:0;background:linear-gradient(140deg,#071218 0%,#0d2030 60%,#071218 100%);" aria-hidden="true"></div>
 
       <div class="hero-overlay" aria-hidden="true"></div>
 
@@ -782,7 +784,7 @@
       <div class="footer-top">
         <div>
           <div class="footer-logo-wrap">
-            <img src="assets/ADC Logo.png" class="footer-logo" alt="ADC" />
+            <div style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:700;color:rgba(42,180,165,.5);letter-spacing:.1em">ADC</div>
             <div class="footer-brand-name">Aqua Design Collective</div>
           </div>
           <div class="footer-tagline">Aquascape Design · Rentals · Maintenance</div>
